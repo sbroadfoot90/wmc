@@ -1,0 +1,36 @@
+schemas
+-----------
+
+chef/foodie
+* Name
+* Restaurant (Chef)
+
+restaurant
+* Name
+* Address
+
+comments
+* User commenting
+* User commented on
+* Comment
+
+likes
+* User liking
+* User liked
+
+
+routes
+------------
+
+Viewed by user:
+
+/					Home page, checks session var
+/profile/$user      View user profile, comments, etc
+/retaurant/$name    View restaurant, current & previous
+/edit/				Edit logged in user profile
+
+
+Used by wmc:
+
+/like/$user			Submit a like
+/comment/$user		Submit a comment
