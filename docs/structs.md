@@ -11,6 +11,7 @@ Datastore: Profile
 Datastore: Restaurant
 ----------------------
 	type Restaurant struct {
+		rID		string
 		Name	string
 		Address	string
 	}
@@ -26,4 +27,5 @@ Datastore: Interaction
 
 	type Likes struct {
 		FromID, ToID	string
+		Time			time.Time[]
 	}

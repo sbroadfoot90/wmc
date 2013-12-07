@@ -14,12 +14,12 @@ type Restaurant struct {
 
 func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 	if r.FormValue("rid") == "" {
-		http.Error(w, "Profile Not Found", http.StatusNotFound)
+		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
 	}
 	
 	loginInfo := loginDetails(r)
 
-	rest, rid := targetRestaurant(r)
+	rest, rid := retrieveRestaurant(r)
 
 	if rest == nil {
 		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
