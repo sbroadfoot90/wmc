@@ -25,7 +25,7 @@ routes
 Viewed by user:
 
 /					Home page, checks session var
-/profile/$user      View user profile, comments, etc
+/profile?id=$user      View user profile, comments, etc
 /retaurant/$name    View restaurant, current & previous
 /edit/				Edit logged in user profile
 

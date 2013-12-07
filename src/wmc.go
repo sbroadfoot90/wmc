@@ -11,6 +11,7 @@ import (
 
 func init() {
 	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/profile", profileHandler)
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
@@ -35,4 +36,4 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-var t = template.Must(template.New("").ParseFiles("tmpl/root.tmpl", "tmpl/rootloggedin.tmpl"))
+var t = template.Must(template.New("").ParseFiles("tmpl/root.tmpl", "tmpl/rootloggedin.tmpl", "tmpl/profile.tmpl"))
