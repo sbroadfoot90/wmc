@@ -59,12 +59,14 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 		ID   string
 		Profile *Profile
 		Comments []Comment
+		AlreadyLiked bool
 		C appengine.Context
 	}{
 		loginInfo,
 		id,
 		p,
 		comments,
+		false,
 		c,
 	}, "profile")
 }
