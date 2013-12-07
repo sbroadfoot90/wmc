@@ -51,7 +51,7 @@ func newRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	} else {
 		if r.Method == "GET" {
-			editRestaurantGetHandler(w, loginInfo, nil)
+			editRestaurantGetHandler(w, loginInfo, nil, "")
 		}
 
 	}
@@ -78,20 +78,22 @@ func editRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	} else {
 		if r.Method == "GET" {
-			editRestaurantGetHandler(w, loginInfo, rest)
+			editRestaurantGetHandler(w, loginInfo, rest, rid)
 		} else if r.Method == "POST" {
 			editRestaurantPostHandler(w, r, loginInfo, rest, rid)
 		}
 	}
 }
 
-func editRestaurantGetHandler(w http.ResponseWriter, loginInfo *LoginInfo, rest *Restaurant) {
+func editRestaurantGetHandler(w http.ResponseWriter, loginInfo *LoginInfo, rest *Restaurant, rid string) {
 	templates["editRestaurant"].ExecuteTemplate(w, "root", struct {
 		LoginInfo   *LoginInfo
 		Restaurant  *Restaurant
+		RID         string
 	}{
 		loginInfo,
 		rest,
+		rid,
 	})
 }
 
