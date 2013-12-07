@@ -52,7 +52,7 @@ func loginDetails(r *http.Request) (*LoginInfo) {
 	
 	
 	if u == nil {
-		url, err := user.LoginURL(c, "/") // TODO first time login url
+		url, err := user.LoginURL(c, "/firsttime") // TODO first time login url
 		check(err)
 		
 		return &LoginInfo{nil, nil, url}
