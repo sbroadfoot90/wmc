@@ -12,13 +12,24 @@ type Foodie struct {
 	Tagline string
 }
 
+
 func profileHandler(w http.ResponseWriter, r *http.Request) {
-	f := Foodie{
-		"Jacob",
-		"live long and prosper",
+	c:= appengine.NewContext(r)
+	id := r.FormValue("id")
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	var f Foodie
+	
+	err := datastore.Get(c, key, &f)
+	
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
+	
 	t.ExecuteTemplate(w, "profile.tmpl", f)
 }
+
+
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)

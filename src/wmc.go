@@ -10,8 +10,8 @@ import (
 
 func init() {
 	http.HandleFunc("/", rootHandler)
-	http.HandleFunc("/profile/", profileHandler)
-	http.HandleFunc("/edit/", editHandler)
+	http.HandleFunc("/profile", profileHandler)
+	http.HandleFunc("/edit", editHandler)
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
