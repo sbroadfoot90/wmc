@@ -16,6 +16,24 @@
 	Tagline: {{.Tagline}} <br />
 
 	<a href="/edit/">Edit</a>
+	
+	<br /><br />
+	<strong>Comments</strong><br />
+		
+	comments
+	
+	<form action="/comment/" method="post">
+		
+		<input type="hidden" name="id" value="{{.ID}}" />
+		
+		<label for="comment">Comment</label>
+		<textarea name="comment"></textarea>
+		
+		<input type="submit" name="add_comment" value="Add Comment" />
+		
+	</form>
+
+
 </body>
 </html>
 
