@@ -4,9 +4,9 @@ import (
 	"appengine"
 	"appengine/datastore"
 	"appengine/user"
-	
-	"net/http"
+
 	"encoding/json"
+	"net/http"
 )
 
 func outputToJsonOrTemplate(w http.ResponseWriter, r *http.Request, data interface{}, templateName string) {
@@ -46,41 +46,41 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 // Returns current user that is logged in, their id
 // If first argument is nil, user has not logged in before.
 // If second argument is "", user is not logged in.
-func loginDetails(r *http.Request) (*Foodie, string){
+func loginDetails(r *http.Request) (*Profile, string) {
 	c := appengine.NewContext(r)
 	u := user.Current(c)
 	if u == nil {
 		return nil, ""
 	}
 	id := u.ID
-	
+
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	var f Foodie
-	
+	var f Profile
+
 	err := datastore.Get(c, key, &f)
 	// TODO Handle ErrNoSuchEntity
 	if err == datastore.ErrNoSuchEntity {
 		return nil, id
 	}
 	check(err)
-	
+
 	return &f, id
 }
 
 // Returns target user, and their id. If first argument is nil, user could not be found.
-func targetUser(r *http.Request) (*Foodie, string) {
-	c:= appengine.NewContext(r)
+func targetUser(r *http.Request) (*Profile, string) {
+	c := appengine.NewContext(r)
 	id := r.FormValue("id")
-	
+
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	var f Foodie
-	
+	var f Profile
+
 	err := datastore.Get(c, key, &f)
 	// TODO Handle ErrNoSuchEntity
 	if err == datastore.ErrNoSuchEntity {
 		return nil, id
 	}
 	check(err)
-	
+
 	return &f, id
 }

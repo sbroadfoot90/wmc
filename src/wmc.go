@@ -9,7 +9,7 @@ import (
 
 func init() {
 	importTemplates("tmpl")
-	
+
 	http.HandleFunc("/", errorHandler(rootHandler))
 	http.HandleFunc("/profile", errorHandler(profileHandler))
 	http.HandleFunc("/edit", errorHandler(editHandler))
@@ -25,7 +25,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		loginURL, err := user.LoginURL(c, "/")
 
 		check(err)
-		
+
 		templates["index"].ExecuteTemplate(w, "root", loginURL)
 	} else {
 		logoutURL, err := user.LogoutURL(c, "/")

@@ -14,7 +14,7 @@ func importTemplates(templatePath string) {
 		"indexLoggedIn",
 		"index",
 	}
-	
+
 	for _, templateName := range templateNames {
 		root := filepath.Join(templatePath, "root.tmpl")
 		templates[templateName] = template.Must(template.New("").ParseFiles(root, filepath.Join(templatePath, templateName+".tmpl")))
