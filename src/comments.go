@@ -13,6 +13,8 @@ type Comment struct{
 	Time time.Time
 }
 
+
+// Handles posting of comments along with "also like"
 func commentHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	
@@ -24,7 +26,7 @@ func commentHandler(w http.ResponseWriter, r *http.Request) {
 	loginInfo := loginDetails(r)
 	p, id := targetUser(r)
 	
-	if u.User == nil || id == "" || p == nil || !p.Chef {
+	if loginInfo.User == nil || id == "" || p == nil || !p.Chef {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}

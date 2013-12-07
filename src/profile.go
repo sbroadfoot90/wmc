@@ -57,7 +57,7 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	outputToJsonOrTemplate(w, r, struct {
 		LoginInfo *LoginInfo
 		ID   string
-		User *Profile // TODO Change to Profile *Profile
+		Profile *Profile
 		Comments []Comment
 		C appengine.Context
 	}{

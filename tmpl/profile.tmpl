@@ -1,25 +1,25 @@
-{{define "title"}}{{.User.Name}}{{end}}
+{{define "title"}}{{.Profile.Name}}{{end}}
 {{define "content"}}
 {{$c := .C}}
-	{{if .User.Chef}}
+	{{if .Profile.Chef}}
 	<p>CHEF IMAGE</p>
 	{{end}}
 	
-	Username: {{.User.Name}} <br />
-	Tagline: {{.User.Tagline}} <br />
+	Username: {{.Profile.Name}} <br />
+	Tagline: {{.Profile.Tagline}} <br />
 	
 	{{/* EXTRA CHEF STUFF */}}
 	
-	{{if .User.Chef}}
+	{{if .Profile.Chef}}
 		<ul>
-			{{range .User.RestaurantIds}}
+			{{range .Profile.RestaurantIds}}
 			<li>{{.}}</li>
 			{{end}}
 		</ul>
 	
 		<br />
 
-		<strong>{{.User.Likes}} Likes</strong><br />
+		<strong>{{.Profile.Likes}} Likes</strong><br />
 		
 		<form action="/like" method="post">
 			<input type="hidden" name="id" value="{{.ID}}" />
