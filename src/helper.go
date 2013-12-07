@@ -52,13 +52,13 @@ func loginDetails(r *http.Request) (*LoginInfo) {
 	
 	
 	if u == nil {
-		url, err := user.LoginURL(c, "/firsttime") // TODO first time login url
+		url, err := LoginURL(c, r.URL.String())
 		check(err)
 		
 		return &LoginInfo{nil, nil, url}
 	}
 	
-	url, err := user.LogoutURL(c, "/")
+	url, err := user.LogoutURL(c, r.URL.String())
 	check(err)
 	
 	id := u.ID

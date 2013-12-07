@@ -12,6 +12,7 @@ func init() {
 	http.HandleFunc("/profile", errorHandler(profileHandler))
 	http.HandleFunc("/edit", errorHandler(editHandler))
 	http.HandleFunc("/comment", errorHandler(commentHandler))
+	http.HandleFunc("/firsttime", errorHandler(firstTimeHandler))
 }
 
 type LoginInfo struct {
