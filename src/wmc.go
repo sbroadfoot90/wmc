@@ -16,12 +16,6 @@ func init() {
 	http.HandleFunc("/like", errorHandler(likeHandler))
 }
 
-type LoginInfo struct {
-		Profile *Profile
-		User    *user.User
-		LOUrl string
-}
-
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	loginInfo := loginDetails(r)
 	templates["index"].ExecuteTemplate(w, "root", struct{

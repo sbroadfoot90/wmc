@@ -43,6 +43,12 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+type LoginInfo struct {
+		Profile *Profile
+		User    *user.User
+		LOUrl string
+}
+
 // Returns profile and user that is logged in
 // If first argument is nil, user has no profile.
 // If second argument is nil, user is not logged in.
