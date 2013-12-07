@@ -19,7 +19,7 @@ func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 
 	loginInfo := loginDetails(r)
 
-	rest, rid := retrieveRestaurant(r)
+	rest, rid := targetRestaurant(r)
 
 	if rest == nil {
 		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
