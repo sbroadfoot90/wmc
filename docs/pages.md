@@ -26,7 +26,7 @@ Pages
 * (profile.tmpl)
 
 **04a Foodie Profile**
-* Shows likes & commends made by foodies
+* Shows likes & comments made by foodies
 * Reverse direction of Chef Profile
 * (profile.tmpl)
 
