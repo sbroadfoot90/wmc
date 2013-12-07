@@ -2,6 +2,7 @@ package wmc
 
 import (
 	"net/http"
+	"appengine"
 )
 
 type Foodie struct{
@@ -17,4 +18,10 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 		"live long and prosper",
 	}
 	t.ExecuteTemplate(w, "profile.tmpl", f)
+}
+
+func editHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	
+	_ = c
 }

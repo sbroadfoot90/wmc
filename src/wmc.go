@@ -28,7 +28,19 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		t.ExecuteTemplate(w, "root.tmpl", loginURL)
 	} else {
-		t.ExecuteTemplate(w, "rootloggedin.tmpl", u.String())	
+		logoutURL, err := user.LogoutURL(c, "/")
+		
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		
+		t.ExecuteTemplate(w, "rootloggedin.tmpl", struct{
+			User, LogoutURL string
+		}{
+			u.String(),
+			logoutURL,
+		})
 	}
 	
 
