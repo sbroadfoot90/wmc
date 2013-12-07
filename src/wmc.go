@@ -27,7 +27,6 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Fprint(w, loginURL)
 		t.ExecuteTemplate(w, "root.tmpl", loginURL)
 	} else {
 		t.ExecuteTemplate(w, "rootloggedin.tmpl", u.String())	
