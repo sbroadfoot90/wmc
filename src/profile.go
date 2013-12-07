@@ -12,7 +12,18 @@ type Profile struct {
 	Tagline    	string
 	Chef       	bool
 	Title		string
+	Likes       int
 	RestaurantIds []string
+}
+
+// TODO populate from file
+var Titles = []string{
+	"Executive Chef",
+	"Sous Chef",
+	"Chef de Partie",
+	"Demi Chef",
+	"Pastry Chef",
+	"Chef",
 }
 
 func profileHandler(w http.ResponseWriter, r *http.Request) {
@@ -23,9 +34,9 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	
 	loginInfo := loginDetails(r)
 
-	u, id := targetUser(r)
+	p, id := targetUser(r)
 
-	if u == nil {
+	if p == nil {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		return
 	}
@@ -46,13 +57,13 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	outputToJsonOrTemplate(w, r, struct {
 		LoginInfo *LoginInfo
 		ID   string
-		User *Profile
+		User *Profile // TODO Change to Profile *Profile
 		Comments []Comment
 		C appengine.Context
 	}{
 		loginInfo,
 		id,
-		u,
+		p,
 		comments,
 		c,
 	}, "profile")
@@ -79,7 +90,13 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func editGetHandler(w http.ResponseWriter, loginInfo *LoginInfo) {
-	templates["edit"].ExecuteTemplate(w, "root", struct{LoginInfo *LoginInfo}{loginInfo})
+	templates["edit"].ExecuteTemplate(w, "root", struct{
+		LoginInfo *LoginInfo
+		ValidTitles []string
+	}{
+		loginInfo,
+		Titles,
+	})
 }
 
 func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo) {
