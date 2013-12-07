@@ -4,7 +4,6 @@ import (
 	"appengine"
 	"appengine/datastore"
 	"appengine/user"
-
 	"encoding/json"
 	"net/http"
 )
