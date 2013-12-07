@@ -59,12 +59,14 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 		ID   string
 		Profile *Profile
 		Comments []Comment
+		AlreadyLiked bool
 		C appengine.Context
 	}{
 		loginInfo,
 		id,
 		p,
 		comments,
+		false,
 		c,
 	}, "profile")
 }
@@ -105,12 +107,18 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	c := appengine.NewContext(r)
 	
 	loginInfo.Profile.Name = r.FormValue("Name")
-	loginInfo.Profile.Tagline = r.FormValue("Tagline")
+	if tagline := r.FormValue("Tagline"); len(tagline) <= 40 {
+			loginInfo.Profile.Tagline = tagline
+	}
 	
 	isChef := r.FormValue("IsChef") == "yes"
 	loginInfo.Profile.Chef = isChef
 	if isChef {
-		loginInfo.Profile.Title = r.FormValue("Title")
+		for _, title := range Titles {
+			if title == r.FormValue("Title") {
+				loginInfo.Profile.Title = title
+			}
+		}
 	}
 
 

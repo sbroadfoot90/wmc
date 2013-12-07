@@ -19,9 +19,9 @@
 	{{if .LoginInfo.Profile.Chef}}
 	<select name="Title">
 		{{range .ValidTitles}}
-		<option name="{{.}}">{{.}}</option>
+		<option value="{{.}}">{{.}}</option>
 		{{end}}
-	</select>
+	</select><br />
 	{{end}}
 	
 	<input type="submit" value="Edit" />
