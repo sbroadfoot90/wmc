@@ -52,10 +52,10 @@
 		
 			<label for="comment">Comment</label>
 			<textarea name="comment"></textarea>
-			
+			{{if not .AlreadyLiked}}
 			<label for="like">Also like?</label>
 			<input type="checkbox" name="like" value="yes">
-		
+			{{end}}
 			<input type="submit" name="add_comment" value="Add Comment" />
 		
 		</form>

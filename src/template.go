@@ -12,6 +12,8 @@ func importTemplates(templatePath string) {
 		"profile",
 		"edit",
 		"index",
+		"restaurant",
+		"editRestaurant",
 	}
 	fm := template.FuncMap{
 		"Username": Username,
