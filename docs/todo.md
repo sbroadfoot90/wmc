@@ -32,14 +32,10 @@ Top 10 Page
 
 Front-end
 ---
-Pages
-* Index Page - No Auth
-* Index Page - Auth
-* Edit Profile Page - First Time
-* Edit Profile Page - Not First Time
-*
 
-* Desktop & Mobile mock-ups
+* Mockup of pages in pages.md
+* Convert mock-ups to HTML
+* Integrate HTML with Go Template engine
+* Work on mobile designs
+* Integrate Google Maps/jQuery stuff
 * Alternate logo for mobile
-* css media queries
-* jQuery drop-down for chef page search
