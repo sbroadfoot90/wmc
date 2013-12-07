@@ -14,7 +14,7 @@ type Restaurant struct {
 
 func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 	if r.FormValue("rid") == "" {
-		http.Error(w, "Profile Not Found", http.StatusNotFound)
+		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
 	}
 	
 	loginInfo := loginDetails(r)
@@ -35,6 +35,15 @@ func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 		rid,
 		rest,
 	}, "restaurant")
+}
+
+func targetRestaurant(r *http.Request) (*Restaurant, string) {
+	c := appengine.NewContext(r)
+	rid := r.FormValue("rid")
+
+	rest := retrieveRestaurant(c, rid)
+	
+	return rest, rid
 }
 
 func retrieveRestaurant(c appengine.Context, rid string) *Restaurant {
