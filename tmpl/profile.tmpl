@@ -1,5 +1,6 @@
 {{define "title"}}{{.User.Name}}{{end}}
 {{define "content"}}
+{{$c := .C}}
 	{{if .User.Chef}}
 	<p>CHEF IMAGE</p>
 	{{end}}
@@ -17,12 +18,20 @@
 	
 	<br /><br />
 	<strong>Comments</strong><br />
-		
-	comments
 	
+	<ul>
+	{{range .Comments}}
+		{{$name := Username $c .FromID}}
+		<li>
+			{{.Comment}} -- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a>{{else}}Anonymous{{end}}
+		</li>
+	{{end}}
+	</ul>
+	
+	{{if .LoginInfo.User}}
 	<form action="/comment" method="post">
 		
-		<input type="hidden" name="idTo" value="{{.ID}}" />
+		<input type="hidden" name="id" value="{{.ID}}" />
 		
 		<label for="comment">Comment</label>
 		<textarea name="comment"></textarea>
@@ -30,5 +39,6 @@
 		<input type="submit" name="add_comment" value="Add Comment" />
 		
 	</form>
+	{{end}}
 	{{end}}
 {{end}}

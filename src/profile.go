@@ -28,15 +28,32 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		return
 	}
+	
+	c := appengine.NewContext(r)
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	
+	n := 10
+	
+	q := datastore.NewQuery("Comment").Ancestor(key).Order("-Time").Limit(n)
+	
+	comments := make([]Comment, 0, n)
+	
+	_, err := q.GetAll(c, &comments)
+	
+	check(err)
 
 	outputToJsonOrTemplate(w, r, struct {
 		LoginInfo *LoginInfo
 		ID   string
 		User *Profile
+		Comments []Comment
+		C appengine.Context
 	}{
 		loginInfo,
 		id,
 		u,
+		comments,
+		c,
 	}, "profile")
 }
 

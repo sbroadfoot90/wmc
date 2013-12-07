@@ -82,14 +82,28 @@ func targetUser(r *http.Request) (*Profile, string) {
 	id := r.FormValue("id")
 
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	var f Profile
+	var p Profile
 
-	err := datastore.Get(c, key, &f)
-	// TODO Handle ErrNoSuchEntity
+	err := datastore.Get(c, key, &p)
 	if err == datastore.ErrNoSuchEntity {
 		return nil, id
 	}
 	check(err)
 
-	return &f, id
+	return &p, id
+}
+
+func Username(c appengine.Context, id string) string {
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	var p Profile
+
+	err := datastore.Get(c, key, &p)
+	
+	if err == datastore.ErrNoSuchEntity {
+		return ""
+	}
+	
+	check(err)
+	
+	return p.Name
 }

@@ -13,9 +13,11 @@ func importTemplates(templatePath string) {
 		"edit",
 		"index",
 	}
-
+	fm := template.FuncMap{
+		"Username": Username,
+	}
 	for _, templateName := range templateNames {
 		root := filepath.Join(templatePath, "root.tmpl")
-		templates[templateName] = template.Must(template.New("").ParseFiles(root, filepath.Join(templatePath, templateName+".tmpl")))
+		templates[templateName] = template.Must(template.New("").Funcs(fm).ParseFiles(root, filepath.Join(templatePath, templateName+".tmpl")))
 	}
 }
