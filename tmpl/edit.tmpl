@@ -1,6 +1,6 @@
-{{define "title"}}Editing {{.Foodie.Name}}{{end}}
+{{define "title"}}Editing {{.Profile.Name}}{{end}}
 {{define "content"}}
-<form action="/edit" method="post">
+<form action="/edit" method="get">
 	<input type="hidden" name="Id" value="{{.ID}}" />
 	
 	<label for="Name">Name:</label>
@@ -8,6 +8,9 @@
 	
 	<label for="Tagline">Tagline:</label>
 	<input type="text" name="Tagline" value="{{.Foodie.Tagline}}" />
+	
+	<label for="is_chef">Is Chef?:</label>
+	<input type="checkbox" name="is_chef" />
 	
 	<input type="submit" value="Edit" />
 </form>
