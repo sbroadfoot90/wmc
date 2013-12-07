@@ -4,7 +4,7 @@ Public facing:
 * **/profile?id=$user**      	View user profile, comments, etc
 * **/retaurant?name=$name**  View restaurant, current & previous
 * **/edit/**					Edit logged in user profile
-
+* **/search/?query=$query** Make a search query
 
 Internal processes:
 ----------------------
