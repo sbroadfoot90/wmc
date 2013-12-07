@@ -4,17 +4,13 @@
 	{{if .Profile.Chef}}
 	<p>CHEF IMAGE</p>
 	{{end}}
-	
-<<<<<<< HEAD
-	Username: {{.User.Name}} <br />
-	{{if .User.Chef}}
-		Title: {{.User.Title}}<br />
+
+	Username: {{.Profile.Name}} <br />
+	{{if .Profile.Chef}}
+		Title: {{.Profile.Title}}<br />
 	{{end}}
 	Tagline: {{.User.Tagline}} <br />
-=======
-	Username: {{.Profile.Name}} <br />
 	Tagline: {{.Profile.Tagline}} <br />
->>>>>>> cf7e22a2738c219795f56d3bbd18124a6950d5d8
 	
 	{{/* EXTRA CHEF STUFF */}}
 	

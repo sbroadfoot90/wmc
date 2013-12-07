@@ -104,7 +104,13 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	
 	loginInfo.Profile.Name = r.FormValue("Name")
 	loginInfo.Profile.Tagline = r.FormValue("Tagline")
-	loginInfo.Profile.Chef = r.FormValue("IsChef") == "yes"
+	
+	isChef := r.FormValue("IsChef") == "yes"
+	loginInfo.Profile.Chef = isChef
+	if isChef {
+		if (loginInfo.Profile.Title = r.FormValue("Title"))
+	}
+
 	
 	key := datastore.NewKey(c, "Profile", loginInfo.User.ID, 0, nil)
 	c.Debugf(loginInfo.User.ID)
