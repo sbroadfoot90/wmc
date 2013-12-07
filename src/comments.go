@@ -32,7 +32,7 @@ func commentHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	if r.FormValue("like") == "yes" {
-		AddLike(c, loginInfo.User.ID, id)
+		addLike(c, loginInfo.User.ID, id)
 	}
 	
 	comment := Comment{

@@ -26,7 +26,11 @@
 		
 		<form action="/like" method="post">
 			<input type="hidden" name="id" value="{{.ID}}" />
-			<input type="submit" name="submit" value="Like">		
+			{{if .AlreadyLiked}}
+			<input type="submit" name="submit" value="Like" disabled />
+			{{else}}
+			<input type="submit" name="submit" value="Like" />
+			{{end}}	
 		</form>
 		<br />
 		
