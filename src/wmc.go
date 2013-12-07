@@ -13,6 +13,9 @@ func init() {
 	http.HandleFunc("/comment", errorHandler(commentHandler))
 	http.HandleFunc("/firsttime", errorHandler(firstTimeHandler))
 	http.HandleFunc("/like", errorHandler(likeHandler))
+	http.HandleFunc("/restaurant", errorHandler(restaurantHandler))
+	http.HandleFunc("/editRestaurant", errorHandler(editRestaurantHandler))
+	http.HandleFunc("/newRestaurant", errorHandler(newRestaurantHandler))
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
