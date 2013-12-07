@@ -5,9 +5,9 @@ A social networking platform that allows food enthusiasts (foodies) and chefs to
 
 Team Members
 ------------
-Casper Tucker
-Alex Street
-Stephen Broadfoot
-Jacob Mulquin
-Michelle
-Franic
+* Casper Tucker
+* Alex Street
+* Stephen Broadfoot
+* Jacob Mulquin
+* Michelle
+* Franic
