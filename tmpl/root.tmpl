@@ -22,7 +22,7 @@
 	<header>
 	{{with .LoginInfo}}
 	{{if .User}}
-		Welcome {{if .Profile}}<a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a> {{end}} | 
+		{{if .Profile}} Welcome <a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a> | {{end}}
 		
 		{{if .Profile}}
 			<a href="/edit">Edit My Profile</a> | 
@@ -30,7 +30,7 @@
 			<a href="/edit">Create a Profile</a> | 
 		{{end}}
 		
-		<a href="{{.LOUrl}}">Logout</a>
+		<a href="{{.LOUrl}}">Logout</a> 
 	{{else}}
 		<a href="{{.LOUrl}}">Login</a>
 	{{end}}
