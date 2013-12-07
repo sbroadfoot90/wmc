@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	
+	<title>wmc | Editing {{.Name}}</title>
+	
+</head>
+
+<body>
+
+	<form action="/edit/" method="post">
+		<label for="Id">Id:</label>
+		<input type="text" name="Id" value="{{.Id}}" />
+		
+		<label for="Name">Name:</label>
+		<input type="text" name="Name" value="{{.Name}}" />
+		
+		<label for="Tagline">Tagline:</label>
+		<input type="text" name="Tagline" value="{{.Tagline}}" />
+		
+		<input type="submit" value="Edit" />
+	</form>
+
+</body>
+</html>
+
