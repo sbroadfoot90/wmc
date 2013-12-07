@@ -22,7 +22,7 @@
 	<header>
 	{{with .LoginInfo}}
 	{{if .User}}
-		Welcome {{if .Profile}}<a href="profile.php?id={{.User.ID}}">{{.Profile.Name}}</a> {{end}} | 
+		Welcome {{if .Profile}}<a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a> {{end}} | 
 		
 		{{if .Profile}}
 			<a href="/edit">Edit My Profile</a> | 
