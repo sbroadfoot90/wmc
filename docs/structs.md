@@ -1,17 +1,12 @@
 Datastore: Profile
 --------------------
 
-	type Foodie struct {
-		Name	string
-		Tagline	string
-
+	type User struct {
+		Name			string
+		Tagline			string
+		Chef			bool
+		RestaurantIds	[]string
 	}
-
-	type Chef struct {
-		Foodie
-		Restaurant	string
-	}	
-
 
 Datastore: Restaurant
 ----------------------
@@ -24,12 +19,11 @@ Datastore: Restaurant
 Datastore: Interaction
 ----------------------
 	type Comments struct {
-		UserFrom	ID
-		UserTo		ID
-		Comment 	string
+		Comment			string
+		FromID, ToID	string
+		Time			time.Time[]
 	}
 
 	type Likes struct {
-		UserFrom	ID
-		UserTo		ID
+		FromID, ToID	string
 	}
