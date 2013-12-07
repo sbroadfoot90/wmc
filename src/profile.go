@@ -1,10 +1,11 @@
 package wmc
 
 import (
+	"net/http"
+	
 	"appengine"
 	"appengine/datastore"
 	"appengine/user"
-	"net/http"
 )
 
 type Foodie struct {
@@ -14,22 +15,10 @@ type Foodie struct {
 
 
 func profileHandler(w http.ResponseWriter, r *http.Request) {
-	c:= appengine.NewContext(r)
-	id := r.FormValue("id")
-	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	var f Foodie
+	user, hasProfile := loginDetails(r)
 	
-	err := datastore.Get(c, key, &f)
-	
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	
-	t.ExecuteTemplate(w, "profile.tmpl", f)
+	outputToJsonOrTemplate(w, r, user, "profile.tmpl")
 }
-
-
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
@@ -46,12 +35,11 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" {
 			err := datastore.Get(c, key, &foodie)
 			// TODO include handling for ErrNoSuchEntity
-		
-			if err != datastore.ErrNoSuchEntity && err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return 
+			
+			if err != datastore.ErrNoSuchEntity {
+				check(err)
 			}
-
+			
 			t.ExecuteTemplate(w, "edit.tmpl", struct{
 				ID     string
 				Foodie Foodie
@@ -63,10 +51,8 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 			foodie.Name = r.FormValue("Name")
 			foodie.Tagline = r.FormValue("Tagline")
 			_, err := datastore.Put(c, key, &foodie)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
+			
+			check(err)
 			
 			http.Redirect(w, r, "/profile?id="+u.ID, http.StatusFound)
 		}

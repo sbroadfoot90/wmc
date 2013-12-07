@@ -9,9 +9,9 @@ import (
 )
 
 func init() {
-	http.HandleFunc("/", rootHandler)
-	http.HandleFunc("/profile", profileHandler)
-	http.HandleFunc("/edit", editHandler)
+	http.HandleFunc("/", errorHandler(rootHandler))
+	http.HandleFunc("/profile", errorHandler(profileHandler))
+	http.HandleFunc("/edit", errorHandler(editHandler))
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
@@ -23,18 +23,13 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 		loginURL, err := user.LoginURL(c, "/")
 
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		check(err)
+		
 		t.ExecuteTemplate(w, "root.tmpl", loginURL)
 	} else {
 		logoutURL, err := user.LogoutURL(c, "/")
 
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		check(err)
 
 		t.ExecuteTemplate(w, "rootloggedin.tmpl", struct {
 			User, LogoutURL string
