@@ -1,6 +1,6 @@
 {{define "title"}}Editing {{.LoginInfo.Profile.Name}}{{end}}
 {{define "content"}}
-<form action="{{./uploadURL}}" method="post" enctype="multipart/form-data">
+<form action="{{.UploadURL}}" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="Id" value="{{.LoginInfo.User.ID}}" />
 	
 	<label for="Name">Name:</label>

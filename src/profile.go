@@ -130,5 +130,4 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	} else {
 		http.Redirect(w, r, "/root", http.StatusFound)
 	}
-
 }
