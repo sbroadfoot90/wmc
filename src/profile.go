@@ -8,9 +8,10 @@ import (
 )
 
 type Profile struct {
-	Name       string
-	Tagline    string
-	Chef       bool
+	Name       	string
+	Tagline    	string
+	Chef       	bool
+	Title		string
 	RestaurantIds []string
 }
 
