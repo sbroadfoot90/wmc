@@ -2,7 +2,6 @@ package wmc
 
 import (
 	"net/http"
-	"appengine/user"
 )
 
 func init() {

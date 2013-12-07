@@ -3,9 +3,16 @@ package wmc
 import (
 	"net/http"
 	"errors"
+	"time"
 	
 	"appengine"
+	"appengine/datastore"
 )
+
+type Like struct{
+	FromID, ToID string
+	Time time.Time
+}
 
 func likeHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
@@ -24,21 +31,55 @@ func likeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	
-	AddLike(c, loginInfo.User.ID, id)
+	addLike(c, loginInfo.User.ID, id)
 	
 	http.Redirect(w, r, "/profile?id=" + id, http.StatusFound)
 }
 
 
-func AddLike(c appengine.Context, fromId, toID string) {
-	p := retrieveProfile(c, toID)
+func addLike(c appengine.Context, fromID, toID string) {
 	
-	if p == nil || !p.Chef {
-		panic(errors.New("No target profile"))
-	}
-	// TODO Transaction
-	// TODO Shard counter
-	p.Likes++
+	err := datastore.RunInTransaction(c, func(c appengine.Context) error {
+		if alreadyLiked(c, fromID, toID) {
+			return nil
+		}
+		
+		p := retrieveProfile(c, toID)
+
+		if p == nil || !p.Chef {
+			panic(errors.New("No target profile"))
+		}
+		
+		
+		key := datastore.NewIncompleteKey(c, "Like", likeBookKey(c))
+		
+		_, err := datastore.Put(c, key, &Like{
+			fromID,
+			toID,
+			time.Now(),
+		})
+		
+		
+		// TODO Shard counter
+		p.Likes++
+		
+		check(err)
+		
+		updateProfile(c, toID, p)
+		
+		return nil
+	}, &datastore.TransactionOptions{XG : true})
 	
-	updateProfile(c, toID, p)
+	check(err)
+}
+
+func alreadyLiked(c appengine.Context, fromID, toID string) bool {
+	keys, err := datastore.NewQuery("Like").Ancestor(likeBookKey(c)).Filter("FromID=", fromID).Filter("ToID=", toID).KeysOnly().GetAll(c, nil)
+	check(err)
+	
+	return len(keys) > 0
+}
+
+func likeBookKey(c appengine.Context) *datastore.Key {
+	return datastore.NewKey(c, "LikeBook", "default_likebook", 0, nil)
 }
