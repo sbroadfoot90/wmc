@@ -2,14 +2,25 @@
 {{define "content"}}
 <form action="/edit" method="post">
 	<input type="hidden" name="Id" value="{{.LoginInfo.User.ID}}" />
+	
 	<label for="Name">Name:</label>
-	<input type="text" name="Name" value="{{.LoginInfo.Profile.Name}}" />
+	<input type="text" name="Name" value="{{.LoginInfo.Profile.Name}}" /><br />
 	
 	<label for="Tagline">Tagline:</label>
-	<input type="text" name="Tagline" value="{{.LoginInfo.Profile.Tagline}}" />
+	<input type="text" name="Tagline" value="{{.LoginInfo.Profile.Tagline}}" /><br />
 	
 	<label for="IsChef">Is Chef?:</label>
-	<input type="checkbox" name="IsChef" value="yes" />
+	{{if .LoginInfo.Profile.Chef}}
+	<input type="checkbox" name="IsChef" value="yes" checked/><br />
+	{{else}}
+	<input type="checkbox" name="IsChef" value="yes" /><br />
+	{{end}}
+	
+	{{if .LoginInfo.Profile.Chef}}
+	<select name="Title">
+		<option></option>
+	</select>
+	{{end}}
 	
 	<input type="submit" value="Edit" />
 </form>
