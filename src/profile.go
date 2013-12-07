@@ -16,6 +16,16 @@ type Profile struct {
 	RestaurantIds []string
 }
 
+// TODO populate from file
+var Titles = []string{
+	"Executive Chef",
+	"Sous Chef",
+	"Chef de Partie",
+	"Demi Chef",
+	"Pastry Chef",
+	"Chef",
+}
+
 func profileHandler(w http.ResponseWriter, r *http.Request) {
 	if r.FormValue("id") == "" {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
@@ -80,7 +90,13 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func editGetHandler(w http.ResponseWriter, loginInfo *LoginInfo) {
-	templates["edit"].ExecuteTemplate(w, "root", struct{LoginInfo *LoginInfo}{loginInfo})
+	templates["edit"].ExecuteTemplate(w, "root", struct{
+		LoginInfo *LoginInfo
+		ValidTitles []string
+	}{
+		loginInfo,
+		Titles,
+	})
 }
 
 func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo) {
