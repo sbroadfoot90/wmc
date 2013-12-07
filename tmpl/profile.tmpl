@@ -1,7 +1,7 @@
-{{define "title"}}{{.Name}}{{end}}
+{{define "title"}}{{.User.Name}}{{end}}
 {{define "content"}}
-	Username: {{.Name}} <br />
-	Tagline: {{.Tagline}} <br />
+	Username: {{.User.Name}} <br />
+	Tagline: {{.User.Tagline}} <br />
 
 	<a href="/edit">Edit</a>
 	
@@ -10,9 +10,9 @@
 		
 	comments
 	
-	<form action="/comment/" method="post">
+	<form action="/comment" method="post">
 		
-		<input type="hidden" name="id" value="{{.ID}}" />
+		<input type="hidden" name="idTo" value="{{.ID}}" />
 		
 		<label for="comment">Comment</label>
 		<textarea name="comment"></textarea>

@@ -15,15 +15,29 @@ type Foodie struct {
 
 
 func profileHandler(w http.ResponseWriter, r *http.Request) {
-	user, _ := loginDetails(r)
+	if r.FormValue("id") == "" {
+		http.Error(w, "Profile Not Found", http.StatusNotFound)
+		// TODO Maybe have a list of all profiles here?
+	}
 	
-	outputToJsonOrTemplate(w, r, user, "profile")
+	user, id := targetUser(r)
+	
+	if user == nil {
+		http.Error(w, "Profile Not Found", http.StatusNotFound)
+		return
+	}
+	
+	outputToJsonOrTemplate(w, r, struct{
+		ID string
+		User *Foodie
+	}{
+		id,
+		user,
+	}, "profile")
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
-
-	u := user.Current(c)
+	u, id = loginDetails(r)
 
 	if u == nil {
 		http.Redirect(w, r, "/", http.StatusFound)
@@ -50,6 +64,8 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 		} else if r.Method == "POST" {
 			foodie.Name = r.FormValue("Name")
 			foodie.Tagline = r.FormValue("Tagline")
+			
+			c := appengine.NewContext(r)
 			_, err := datastore.Put(c, key, &foodie)
 			
 			check(err)

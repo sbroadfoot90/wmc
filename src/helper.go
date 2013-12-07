@@ -3,6 +3,7 @@ package wmc
 import (
 	"appengine"
 	"appengine/datastore"
+	"appengine/user"
 	
 	"net/http"
 	"encoding/json"
@@ -42,19 +43,44 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func loginDetails(r *http.Request) (*Foodie, bool){
-	c:= appengine.NewContext(r)
-	id := r.FormValue("id")
-	c.Debugf(id)
+// Returns current user that is logged in, their id
+// If first argument is nil, user has not logged in before.
+// If second argument is "", user is not logged in.
+func loginDetails(r *http.Request) (*Foodie, string){
+	c := appengine.NewContext(r)
+	u := user.Current(c)
+	if u == nil {
+		return nil, ""
+	}
+	id := u.ID
+	
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
 	var f Foodie
 	
 	err := datastore.Get(c, key, &f)
 	// TODO Handle ErrNoSuchEntity
 	if err == datastore.ErrNoSuchEntity {
-		return nil, false
+		return nil, id
 	}
 	check(err)
 	
-	return &f, true
+	return &f, id
+}
+
+// Returns target user, and their id. If first argument is nil, user could not be found.
+func targetUser(r *http.Request) (*Foodie, string) {
+	c:= appengine.NewContext(r)
+	id := r.FormValue("id")
+	
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	var f Foodie
+	
+	err := datastore.Get(c, key, &f)
+	// TODO Handle ErrNoSuchEntity
+	if err == datastore.ErrNoSuchEntity {
+		return nil, id
+	}
+	check(err)
+	
+	return &f, id
 }
