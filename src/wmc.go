@@ -3,7 +3,6 @@ package wmc
 import (
 	"net/http"
 	"html/template"
-	"fmt"
 	
 	"appengine"
 	"appengine/user"
