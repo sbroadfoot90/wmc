@@ -2,7 +2,8 @@ package wmc
 
 import (
 	"net/http"
-	"appengine/user"
+//	"appengine"
+//	"appengine/user"
 )
 
 func init() {
@@ -17,10 +18,22 @@ func init() {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
+	
 	loginInfo := loginDetails(r)
-	templates["index"].ExecuteTemplate(w, "root", struct{
-		LoginInfo *LoginInfo
-	}{
-		loginInfo,
-	})
+	
+	
+	
+	if loginInfo.Profile != nil && loginInfo.Profile.Chef {
+		http.Redirect(w, r, "/profile?id=" + loginInfo.User.ID, http.StatusFound)
+
+	} else{
+		templates["index"].ExecuteTemplate(w, "root", struct{
+			LoginInfo *LoginInfo
+		}{
+			loginInfo,
+		})
+		
+	}
+	
+	
 }
