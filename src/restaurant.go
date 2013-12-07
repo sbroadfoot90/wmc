@@ -8,15 +8,15 @@ import (
 )
 
 type Restaurant struct {
-	Name       	string
-	Address    	string
+	Name    string
+	Address string
 }
 
 func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 	if r.FormValue("rid") == "" {
 		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
 	}
-	
+
 	loginInfo := loginDetails(r)
 
 	rest, rid := targetRestaurant(r)
@@ -27,8 +27,8 @@ func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	outputToJsonOrTemplate(w, r, struct {
-		LoginInfo *LoginInfo
-		RID   string
+		LoginInfo  *LoginInfo
+		RID        string
 		Restaurant *Restaurant
 	}{
 		loginInfo,
@@ -42,7 +42,7 @@ func targetRestaurant(r *http.Request) (*Restaurant, string) {
 	rid := r.FormValue("rid")
 
 	rest := retrieveRestaurant(c, rid)
-	
+
 	return rest, rid
 }
 
@@ -56,6 +56,6 @@ func retrieveRestaurant(c appengine.Context, rid string) *Restaurant {
 		return nil
 	}
 	check(err)
-	
+
 	return &rest
 }

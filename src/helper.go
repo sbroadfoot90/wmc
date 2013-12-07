@@ -44,31 +44,30 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 }
 
 type LoginInfo struct {
-		Profile *Profile
-		User    *user.User
-		LOUrl string
+	Profile *Profile
+	User    *user.User
+	LOUrl   string
 }
 
 // Returns profile and user that is logged in
 // If first argument is nil, user has no profile.
 // If second argument is nil, user is not logged in.
-func loginDetails(r *http.Request) (*LoginInfo) {
+func loginDetails(r *http.Request) *LoginInfo {
 	c := appengine.NewContext(r)
 	u := user.Current(c)
-	
-	
+
 	if u == nil {
 		url, err := LoginURL(c, r.URL.String())
 		check(err)
-		
+
 		return &LoginInfo{nil, nil, url}
 	}
-	
+
 	url, err := user.LogoutURL(c, r.URL.String())
 	check(err)
-	
+
 	p := retrieveProfile(c, u.ID)
-	
+
 	return &LoginInfo{p, u, url}
 }
 
@@ -78,7 +77,7 @@ func targetUser(r *http.Request) (*Profile, string) {
 	id := r.FormValue("id")
 
 	p := retrieveProfile(c, id)
-	
+
 	return p, id
 }
 
@@ -89,7 +88,6 @@ func Username(c appengine.Context, id string) string {
 	}
 	return p.Name
 }
-
 
 // TODO Memcache
 func retrieveProfile(c appengine.Context, id string) *Profile {
