@@ -108,7 +108,7 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	isChef := r.FormValue("IsChef") == "yes"
 	loginInfo.Profile.Chef = isChef
 	if isChef {
-		if (loginInfo.Profile.Title = r.FormValue("Title"))
+		loginInfo.Profile.Title = r.FormValue("Title")
 	}
 
 	
