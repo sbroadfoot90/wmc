@@ -5,6 +5,7 @@ import (
 
 	"appengine"
 	"appengine/datastore"
+	"appengine/memcache"
 )
 
 type Restaurant struct {
@@ -43,7 +44,7 @@ func newRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-	
+
 	loginInfo := loginDetails(r)
 
 	if loginInfo.User == nil {
@@ -55,24 +56,24 @@ func newRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
-	
+
 }
 
 func editRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 	loginInfo := loginDetails(r)
-	
+
 	if r.FormValue("rid") == "" {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-	
+
 	rest, rid := targetRestaurant(r)
-	
+
 	if rid == "" {
 		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
 		return
 	}
-	
+
 	if loginInfo.User == nil {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
@@ -87,9 +88,9 @@ func editRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 
 func editRestaurantGetHandler(w http.ResponseWriter, loginInfo *LoginInfo, rest *Restaurant, rid string) {
 	templates["editRestaurant"].ExecuteTemplate(w, "root", struct {
-		LoginInfo   *LoginInfo
-		Restaurant  *Restaurant
-		RID         string
+		LoginInfo  *LoginInfo
+		Restaurant *Restaurant
+		RID        string
 	}{
 		loginInfo,
 		rest,
@@ -103,16 +104,12 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 	if rest == nil {
 		rest = &Restaurant{}
 	}
-	
+
 	rest.Name = r.FormValue("Name")
 	rest.Address = r.FormValue("Address")
 
-	key := datastore.NewKey(c, "Restaurant", rid, 0, nil)
+	updateRestaurant(c, rid, rest)
 
-	_, err := datastore.Put(c, key, rest)
-
-	check(err)
-	
 	http.Redirect(w, r, "/restaurant?rid="+rid, http.StatusFound)
 }
 
@@ -129,12 +126,26 @@ func retrieveRestaurant(c appengine.Context, rid string) *Restaurant {
 	key := datastore.NewKey(c, "Restaurant", rid, 0, nil)
 	var rest Restaurant
 
-	err := datastore.Get(c, key, &rest)
+	_, err := memcache.Gob.Get(c, "restaurant-"+rid, &rest)
 
-	if err == datastore.ErrNoSuchEntity {
-		return nil
+	if err == memcache.ErrCacheMiss {
+		c.Debugf("Memcache Miss")
+		err := datastore.Get(c, key, &rest)
+		if err == datastore.ErrNoSuchEntity {
+			return nil
+		}
+		check(err)
+		memcache.Gob.Set(c, &memcache.Item{Key: "restaurant-" + rid, Object: rest})
+	} else {
+		check(err)
 	}
-	check(err)
 
 	return &rest
+}
+
+func updateRestaurant(c appengine.Context, rid string, rest *Restaurant) {
+	key := datastore.NewKey(c, "Restaurant", rid, 0, nil)
+	_, err := datastore.Put(c, key, rest)
+	memcache.Delete(c, "restaurant-"+rid)
+	check(err)
 }

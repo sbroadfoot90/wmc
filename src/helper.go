@@ -2,7 +2,6 @@ package wmc
 
 import (
 	"appengine"
-	"appengine/datastore"
 	"appengine/user"
 	"encoding/json"
 	"net/http"
@@ -75,6 +74,10 @@ func targetUser(r *http.Request) (*Profile, string) {
 	c := appengine.NewContext(r)
 	id := r.FormValue("id")
 
+	if id == "" {
+		return nil, ""
+	}
+
 	p := retrieveProfile(c, id)
 
 	return p, id
@@ -86,24 +89,4 @@ func Username(c appengine.Context, id string) string {
 		return ""
 	}
 	return p.Name
-}
-
-// TODO Memcache
-func retrieveProfile(c appengine.Context, id string) *Profile {
-	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	var p Profile
-
-	err := datastore.Get(c, key, &p)
-	if err == datastore.ErrNoSuchEntity {
-		return nil
-	}
-	check(err)
-	return &p
-}
-
-// TODO Memcache
-func updateProfile(c appengine.Context, id string, p *Profile) {
-	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	_, err := datastore.Put(c, key, p)
-	check(err)
 }

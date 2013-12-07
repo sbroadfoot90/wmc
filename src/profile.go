@@ -5,6 +5,7 @@ import (
 
 	"appengine"
 	"appengine/datastore"
+	"appengine/memcache"
 )
 
 type Profile struct {
@@ -95,39 +96,71 @@ func editGetHandler(w http.ResponseWriter, loginInfo *LoginInfo) {
 	templates["edit"].ExecuteTemplate(w, "root", struct {
 		LoginInfo   *LoginInfo
 		ValidTitles []string
+		UploadURL   string
 	}{
 		loginInfo,
 		Titles,
+		"/edit",
 	})
 }
 
 func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo) {
 	c := appengine.NewContext(r)
 
-	loginInfo.Profile.Name = r.FormValue("Name")
+	p := loginInfo.Profile
+
+	if p == nil {
+		p = &Profile{}
+	}
+
+	p.Name = r.FormValue("Name")
 	if tagline := r.FormValue("Tagline"); len(tagline) <= 40 {
-		loginInfo.Profile.Tagline = tagline
+		p.Tagline = tagline
 	}
 
 	isChef := r.FormValue("IsChef") == "yes"
-	loginInfo.Profile.Chef = isChef
+	p.Chef = isChef
 	if isChef {
 		for _, title := range Titles {
 			if title == r.FormValue("Title") {
-				loginInfo.Profile.Title = title
+				p.Title = title
 			}
 		}
 	}
 
-	key := datastore.NewKey(c, "Profile", loginInfo.User.ID, 0, nil)
-	c.Debugf(loginInfo.User.ID)
-	_, err := datastore.Put(c, key, loginInfo.Profile)
-
-	check(err)
+	updateProfile(c, loginInfo.User.ID, p)
 
 	if isChef {
 		http.Redirect(w, r, "/profile?id="+loginInfo.User.ID, http.StatusFound)
 	} else {
 		http.Redirect(w, r, "/", http.StatusFound)
 	}
+}
+
+func retrieveProfile(c appengine.Context, id string) *Profile {
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	var p Profile
+
+	_, err := memcache.Gob.Get(c, "profile-"+id, &p)
+
+	if err == memcache.ErrCacheMiss {
+		c.Debugf("Memcache Miss")
+		err := datastore.Get(c, key, &p)
+		if err == datastore.ErrNoSuchEntity {
+			return nil
+		}
+		check(err)
+		memcache.Gob.Set(c, &memcache.Item{Key: "profile-" + id, Object: p})
+	} else {
+		check(err)
+	}
+
+	return &p
+}
+
+func updateProfile(c appengine.Context, id string, p *Profile) {
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	_, err := datastore.Put(c, key, p)
+	memcache.Delete(c, "profile-"+id)
+	check(err)
 }
