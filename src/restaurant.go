@@ -113,7 +113,7 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 
 	check(err)
 	
-	http.Redirect(w, r, "/restaurant?id="+rid, http.StatusFound)
+	http.Redirect(w, r, "/restaurant?rid="+rid, http.StatusFound)
 }
 
 func targetRestaurant(r *http.Request) (*Restaurant, string) {

@@ -1,6 +1,6 @@
 {{define "title"}}Editing {{.LoginInfo.Profile.Name}}{{end}}
 {{define "content"}}
-<form action="/edit" method="post">
+<form action="{{.UploadURL}}" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="Id" value="{{.LoginInfo.User.ID}}" />
 	
 	<label for="Name">Name:</label>
@@ -8,6 +8,9 @@
 	
 	<label for="Tagline">Tagline:</label>
 	<input type="text" name="Tagline" value="{{.LoginInfo.Profile.Tagline}}" /><br />
+	
+	<label for="ProfilePicture">Profile Pic:</label>
+	<input type="file" name="ProfilePicture"><br />
 	
 	<label for="IsChef">Is Chef?:</label>
 	{{if .LoginInfo.Profile.Chef}}
