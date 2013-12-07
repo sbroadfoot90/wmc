@@ -25,11 +25,10 @@ func likeHandler(w http.ResponseWriter, r *http.Request) {
 	loginInfo := loginDetails(r)
 	
 	id := r.FormValue("id")
-	if id == "" || loginInfo.Profile == nil {
+	if id == "" || loginInfo.User == nil {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-	
 	
 	addLike(c, loginInfo.User.ID, id)
 	
