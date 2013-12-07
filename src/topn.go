@@ -6,20 +6,18 @@ import (
 	"net/http"
 )
 
-
-func topnHandler (w http.ResponseWriter, r *http.Request) {
+func topnHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	n := 10
 	q := datastore.NewQuery("Profile").Order("-Likes").Limit(n)
 	loginInfo := loginDetails(r)
-
 
 	profiles := make([]Profile, 0, n)
 
 	_, err := q.GetAll(c, &profiles)
 
 	check(err)
-	_  = loginInfo
+	_ = loginInfo
 	// outputToJsonOrTemplate(w, r, struct {
 	// 	LoginInfo    *LoginInfo
 	// 	Profiles	[]Profile
@@ -29,8 +27,7 @@ func topnHandler (w http.ResponseWriter, r *http.Request) {
 	// 	profiles,
 	// 	c,
 	// }, "topn")
-	// 
-	// 
-	
-	
+	//
+	//
+
 }
