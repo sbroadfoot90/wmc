@@ -6,20 +6,20 @@
 
 	<meta charset="utf-8">
 	
-	<title>wmc | Editing {{.Name}}</title>
+	<title>wmc | Editing {{.Foodie.Name}}</title>
 	
 </head>
 
 <body>
 
-	<form action="/edit/" method="post">
-		<input type="hidden" name="Id" value="{{.Id}}" />
+	<form action="/edit" method="post">
+		<input type="hidden" name="Id" value="{{.ID}}" />
 		
 		<label for="Name">Name:</label>
-		<input type="text" name="Name" value="{{.Name}}" />
+		<input type="text" name="Name" value="{{.Foodie.Name}}" />
 		
 		<label for="Tagline">Tagline:</label>
-		<input type="text" name="Tagline" value="{{.Tagline}}" />
+		<input type="text" name="Tagline" value="{{.Foodie.Tagline}}" />
 		
 		<input type="submit" value="Edit" />
 	</form>
