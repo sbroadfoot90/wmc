@@ -5,6 +5,7 @@ import (
 
 	"appengine"
 	"appengine/datastore"
+	"appengine/memcache"
 )
 
 type Profile struct {
@@ -134,4 +135,32 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	} else {
 		http.Redirect(w, r, "/root", http.StatusFound)
 	}
+}
+
+func retrieveProfile(c appengine.Context, id string) *Profile {
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	var p Profile
+
+	_, err := memcache.Gob.Get(c, "profile-"+id, &p)
+
+	if err == memcache.ErrCacheMiss {
+		c.Debugf("Memcache Miss")
+		err := datastore.Get(c, key, &p)
+		if err == datastore.ErrNoSuchEntity {
+			return nil
+		}
+		check(err)
+		memcache.Gob.Set(c, &memcache.Item{Key: "profile-" + id, Object: p})
+	} else {
+		check(err)
+	}
+
+	return &p
+}
+
+func updateProfile(c appengine.Context, id string, p *Profile) {
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	_, err := datastore.Put(c, key, p)
+	memcache.Delete(c, "profile-"+id)
+	check(err)
 }
