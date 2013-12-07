@@ -8,6 +8,11 @@
 	<header>
 	{{with .LoginInfo}}
 	{{if .User}}
+		{{if .Profile}}
+			<a href="/edit">Edit My Profile</a>
+		{{else}}
+			<a href="/edit">Create a Profile</a>
+		{{end}}
 		Welcome {{if .Profile}}{{.Profile.Name}}{{end}} | <a href="{{.LOUrl}}">Logout</a>
 	{{else}}
 		<a href="{{.LOUrl}}">Login</a>

@@ -11,7 +11,7 @@ type Profile struct {
 	Name       string
 	Tagline    string
 	Chef       bool
-	RestuarantIds []string
+	RestaurantIds []string
 }
 
 func profileHandler(w http.ResponseWriter, r *http.Request) {
@@ -48,6 +48,9 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	} else {
+		if loginInfo.Profile == nil {
+			loginInfo.Profile = &Profile{}
+		}
 		if r.Method == "GET" {
 			editGetHandler(w, loginInfo)
 		} else if r.Method == "POST" {
@@ -66,6 +69,7 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	
 	loginInfo.Profile.Name = r.FormValue("Name")
 	loginInfo.Profile.Tagline = r.FormValue("Tagline")
+	loginInfo.Profile.Chef = r.FormValue("IsChef") == "yes"
 	
 	key := datastore.NewKey(c, "Profile", loginInfo.User.ID, 0, nil)
 	c.Debugf(loginInfo.User.ID)

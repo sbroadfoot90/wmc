@@ -1,8 +1,18 @@
 {{define "title"}}{{.User.Name}}{{end}}
 {{define "content"}}
+	{{if .User.Chef}}
+	<p>CHEF IMAGE</p>
+	{{end}}
 	Username: {{.User.Name}} <br />
 	Tagline: {{.User.Tagline}} <br />
-
+	
+	{{if .User.Chef}}
+	<ul>
+	{{range .User.RestaurantIds}}
+		<li>{{.}}</li>
+	{{end}}
+	</ul>
+	
 	<a href="/edit">Edit</a>
 	
 	<br /><br />
@@ -20,4 +30,5 @@
 		<input type="submit" name="add_comment" value="Add Comment" />
 		
 	</form>
+	{{end}}
 {{end}}
