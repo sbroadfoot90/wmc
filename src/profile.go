@@ -87,6 +87,8 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+	
+
 }
 
 func editGetHandler(w http.ResponseWriter, loginInfo *LoginInfo) {
@@ -111,12 +113,19 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 		loginInfo.Profile.Title = r.FormValue("Title")
 	}
 
-	
+
 	key := datastore.NewKey(c, "Profile", loginInfo.User.ID, 0, nil)
 	c.Debugf(loginInfo.User.ID)
 	_, err := datastore.Put(c, key, loginInfo.Profile)
 
 	check(err)
 
-	http.Redirect(w, r, "/profile?id="+loginInfo.User.ID, http.StatusFound)
+	if isChef {
+		http.Redirect(w, r, "/profile?id="+loginInfo.User.ID, http.StatusFound)
+	} else {
+		http.Redirect(w, r, "/root", http.StatusFound)
+	}
+
+
+
 }
