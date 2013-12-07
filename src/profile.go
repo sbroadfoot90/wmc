@@ -66,7 +66,7 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 		id,
 		p,
 		comments,
-		loginInfo.User != nil && alreadyLiked(c, loginInfo.User.ID, id),
+		loginInfo.User == nil || alreadyLiked(c, loginInfo.User.ID, id),
 		c,
 	}, "profile")
 }
