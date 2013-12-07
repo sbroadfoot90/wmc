@@ -43,28 +43,37 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-// Returns current user that is logged in, their id
-// If first argument is nil, user has not logged in before.
-// If second argument is "", user is not logged in.
-func loginDetails(r *http.Request) (*Profile, string) {
+// Returns profile and user that is logged in
+// If first argument is nil, user has no profile.
+// If second argument is nil, user is not logged in.
+func loginDetails(r *http.Request) (*LoginInfo) {
 	c := appengine.NewContext(r)
 	u := user.Current(c)
+	
+	
 	if u == nil {
-		return nil, ""
+		url, err := user.LoginURL(c, "/") // TODO first time login url
+		check(err)
+		
+		return &LoginInfo{nil, nil, url}
 	}
+	
+	url, err := user.LogoutURL(c, "/")
+	check(err)
+	
 	id := u.ID
 
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	var f Profile
+	var p Profile
 
-	err := datastore.Get(c, key, &f)
+	err = datastore.Get(c, key, &p)
 	// TODO Handle ErrNoSuchEntity
 	if err == datastore.ErrNoSuchEntity {
-		return nil, id
+		return &LoginInfo{nil, u, url}
 	}
 	check(err)
 
-	return &f, id
+	return &LoginInfo{&p, u, url}
 }
 
 // Returns target user, and their id. If first argument is nil, user could not be found.

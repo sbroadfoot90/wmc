@@ -1,13 +1,13 @@
-{{define "title"}}Editing {{.Profile.Name}}{{end}}
+{{define "title"}}Editing {{.LoginInfo.Profile.Name}}{{end}}
 {{define "content"}}
 <form action="/edit" method="post">
-	<input type="hidden" name="Id" value="{{.ID}}" />
+	<input type="hidden" name="Id" value="{{.LoginInfo.User.ID}}" />
 	
 	<label for="Name">Name:</label>
-	<input type="text" name="Name" value="{{.Profile.Name}}" />
+	<input type="text" name="Name" value="{{.LoginInfo.Profile.Name}}" />
 	
 	<label for="Tagline">Tagline:</label>
-	<input type="text" name="Tagline" value="{{.Profile.Tagline}}" />
+	<input type="text" name="Tagline" value="{{.LoginInfo.Profile.Tagline}}" />
 	
 	<input type="submit" value="Edit" />
 </form>

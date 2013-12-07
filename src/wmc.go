@@ -2,8 +2,6 @@ package wmc
 
 import (
 	"net/http"
-
-	"appengine"
 	"appengine/user"
 )
 
@@ -15,29 +13,17 @@ func init() {
 	http.HandleFunc("/edit", errorHandler(editHandler))
 }
 
+type LoginInfo struct {
+		Profile *Profile
+		User    *user.User
+		LOUrl string
+}
+
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
-
-	u := user.Current(c)
-
-	if u == nil {
-
-		loginURL, err := user.LoginURL(c, "/")
-
-		check(err)
-
-		templates["index"].ExecuteTemplate(w, "root", loginURL)
-	} else {
-		logoutURL, err := user.LogoutURL(c, "/")
-
-		check(err)
-
-		templates["indexLoggedIn"].ExecuteTemplate(w, "root", struct {
-			User, LogoutURL string
-		}{
-			u.String(),
-			logoutURL,
-		})
-	}
-
+	loginInfo := loginDetails(r)
+	templates["index"].ExecuteTemplate(w, "root", struct{
+		LoginInfo *LoginInfo
+	}{
+		loginInfo,
+	})
 }

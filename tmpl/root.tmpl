@@ -5,6 +5,15 @@
 	<title>Where's My Chef | {{template "title" .}}</title>
 </head>
 <body>
+	<header>
+	{{with .LoginInfo}}
+	{{if .User}}
+		Welcome {{if .Profile}}{{.Profile.Name}}{{end}} | <a href="{{.LOUrl}}">Logout</a>
+	{{else}}
+		<a href="{{.LOUrl}}">Login</a>
+	{{end}}
+	{{end}}
+	</header>
 	{{template "content" .}}
 </body>
 </html>

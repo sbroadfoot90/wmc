@@ -19,60 +19,59 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		// TODO Maybe have a list of all profiles here?
 	}
+	
+	loginInfo := loginDetails(r)
 
-	user, id := targetUser(r)
+	u, id := targetUser(r)
 
-	if user == nil {
+	if u == nil {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		return
 	}
 
 	outputToJsonOrTemplate(w, r, struct {
+		LoginInfo *LoginInfo
 		ID   string
 		User *Profile
 	}{
+		loginInfo,
 		id,
-		user,
+		u,
 	}, "profile")
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
-	u, id := loginDetails(r)
+	loginInfo := loginDetails(r)
 
 
-	if u == nil {
+	if loginInfo.User == nil {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	} else {
 		if r.Method == "GET" {
-			editGetHandler(w, u, id)
+			editGetHandler(w, loginInfo)
 		} else if r.Method == "POST" {
-			editPostHandler(w, r, u, id)
+			editPostHandler(w, r, loginInfo)
 		}
 
 	}
 }
 
-func editGetHandler(w http.ResponseWriter, u *Profile, id string) {
-	templates["edit"].ExecuteTemplate(w, "root", struct {
-		Profile *Profile
-		ID     string
-	}{
-		u,
-		id,
-	})
+func editGetHandler(w http.ResponseWriter, loginInfo *LoginInfo) {
+	templates["edit"].ExecuteTemplate(w, "root", struct{LoginInfo *LoginInfo}{loginInfo})
 }
 
-func editPostHandler(w http.ResponseWriter, r *http.Request, u *Profile, id string) {
+func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo) {
 	c := appengine.NewContext(r)
-	u.Name = r.FormValue("Name")
-	u.Tagline = r.FormValue("Tagline")
 	
-	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	c.Debugf(id)
-	_, err := datastore.Put(c, key, u)
+	loginInfo.Profile.Name = r.FormValue("Name")
+	loginInfo.Profile.Tagline = r.FormValue("Tagline")
+	
+	key := datastore.NewKey(c, "Profile", loginInfo.User.ID, 0, nil)
+	c.Debugf(loginInfo.User.ID)
+	_, err := datastore.Put(c, key, loginInfo.Profile)
 
 	check(err)
 
-	http.Redirect(w, r, "/profile?id="+id, http.StatusFound)
+	http.Redirect(w, r, "/profile?id="+loginInfo.User.ID, http.StatusFound)
 }

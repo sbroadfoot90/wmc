@@ -11,7 +11,6 @@ func importTemplates(templatePath string) {
 	templateNames := []string{
 		"profile",
 		"edit",
-		"indexLoggedIn",
 		"index",
 	}
 
