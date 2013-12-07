@@ -43,7 +43,7 @@ func newRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-	
+
 	loginInfo := loginDetails(r)
 
 	if loginInfo.User == nil {
@@ -55,24 +55,24 @@ func newRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
-	
+
 }
 
 func editRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 	loginInfo := loginDetails(r)
-	
+
 	if r.FormValue("rid") == "" {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-	
+
 	rest, rid := targetRestaurant(r)
-	
+
 	if rid == "" {
 		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
 		return
 	}
-	
+
 	if loginInfo.User == nil {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
@@ -87,9 +87,9 @@ func editRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 
 func editRestaurantGetHandler(w http.ResponseWriter, loginInfo *LoginInfo, rest *Restaurant, rid string) {
 	templates["editRestaurant"].ExecuteTemplate(w, "root", struct {
-		LoginInfo   *LoginInfo
-		Restaurant  *Restaurant
-		RID         string
+		LoginInfo  *LoginInfo
+		Restaurant *Restaurant
+		RID        string
 	}{
 		loginInfo,
 		rest,
@@ -103,7 +103,7 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 	if rest == nil {
 		rest = &Restaurant{}
 	}
-	
+
 	rest.Name = r.FormValue("Name")
 	rest.Address = r.FormValue("Address")
 
@@ -112,7 +112,7 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 	_, err := datastore.Put(c, key, rest)
 
 	check(err)
-	
+
 	http.Redirect(w, r, "/restaurant?rid="+rid, http.StatusFound)
 }
 

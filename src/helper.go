@@ -3,6 +3,7 @@ package wmc
 import (
 	"appengine"
 	"appengine/datastore"
+	"appengine/memcache"
 	"appengine/user"
 
 	"encoding/json"
@@ -89,22 +90,30 @@ func Username(c appengine.Context, id string) string {
 	return p.Name
 }
 
-// TODO Memcache
 func retrieveProfile(c appengine.Context, id string) *Profile {
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
 	var p Profile
 
-	err := datastore.Get(c, key, &p)
-	if err == datastore.ErrNoSuchEntity {
-		return nil
+	_, err := memcache.Gob.Get(c, "profile-"+id, &p)
+
+	if err == memcache.ErrCacheMiss {
+		c.Debugf("Memcache Miss")
+		err := datastore.Get(c, key, &p)
+		if err == datastore.ErrNoSuchEntity {
+			return nil
+		}
+		check(err)
+		memcache.Gob.Set(c, &memcache.Item{Key: "profile-" + id, Object: p})
+	} else {
+		check(err)
 	}
-	check(err)
+
 	return &p
 }
 
-// TODO Memcache
 func updateProfile(c appengine.Context, id string, p *Profile) {
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
 	_, err := datastore.Put(c, key, p)
+	memcache.Delete(c, "profile-"+id)
 	check(err)
 }
