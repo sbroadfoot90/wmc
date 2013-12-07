@@ -14,17 +14,23 @@ type Comment struct{
 }
 
 func commentHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	
 	if r.Method != "POST" {
-		http.Redirect(w, r, "/", http.StatusUnauthorized)
+		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
 	
 	loginInfo := loginDetails(r)
 	p, id := targetUser(r)
 	
-	if p == nil || !p.Chef {
-		http.Redirect(w, r, "/", http.StatusPreconditionFailed)
+	if u.User == nil || id == "" || p == nil || !p.Chef {
+		http.Redirect(w, r, "/", http.StatusFound)
 		return
+	}
+	
+	if r.FormValue("like") == "yes" {
+		AddLike(c, loginInfo.User.ID, id)
 	}
 	
 	comment := Comment{
@@ -33,7 +39,7 @@ func commentHandler(w http.ResponseWriter, r *http.Request) {
 		id,
 		time.Now(),
 	}
-	c := appengine.NewContext(r)
+	
 	
 	toKey := datastore.NewKey(c, "Profile", id, 0, nil)
 	key := datastore.NewIncompleteKey(c, "Comment", toKey)

@@ -61,19 +61,9 @@ func loginDetails(r *http.Request) (*LoginInfo) {
 	url, err := user.LogoutURL(c, r.URL.String())
 	check(err)
 	
-	id := u.ID
-
-	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	var p Profile
-
-	err = datastore.Get(c, key, &p)
-	// TODO Handle ErrNoSuchEntity
-	if err == datastore.ErrNoSuchEntity {
-		return &LoginInfo{nil, u, url}
-	}
-	check(err)
-
-	return &LoginInfo{&p, u, url}
+	p := retrieveProfile(c, u.ID)
+	
+	return &LoginInfo{p, u, url}
 }
 
 // Returns target user, and their id. If first argument is nil, user could not be found.
@@ -81,29 +71,36 @@ func targetUser(r *http.Request) (*Profile, string) {
 	c := appengine.NewContext(r)
 	id := r.FormValue("id")
 
-	key := datastore.NewKey(c, "Profile", id, 0, nil)
-	var p Profile
-
-	err := datastore.Get(c, key, &p)
-	if err == datastore.ErrNoSuchEntity {
-		return nil, id
-	}
-	check(err)
-
-	return &p, id
+	p := retrieveProfile(c, id)
+	
+	return p, id
 }
 
 func Username(c appengine.Context, id string) string {
+	p := retrieveProfile(c, id)
+	if p == nil {
+		return ""
+	}
+	return p.Name
+}
+
+
+// TODO Memcache
+func retrieveProfile(c appengine.Context, id string) *Profile {
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
 	var p Profile
 
 	err := datastore.Get(c, key, &p)
-	
 	if err == datastore.ErrNoSuchEntity {
-		return ""
+		return nil
 	}
-	
 	check(err)
-	
-	return p.Name
+	return &p
+}
+
+// TODO Memcache
+func updateProfile(c appengine.Context, id string, p *Profile) {
+	key := datastore.NewKey(c, "Profile", id, 0, nil)
+	_, err := datastore.Put(c, key, p)
+	check(err)
 }

@@ -13,6 +13,7 @@ func init() {
 	http.HandleFunc("/edit", errorHandler(editHandler))
 	http.HandleFunc("/comment", errorHandler(commentHandler))
 	http.HandleFunc("/firsttime", errorHandler(firstTimeHandler))
+	http.HandleFunc("/like", errorHandler(likeHandler))
 }
 
 type LoginInfo struct {

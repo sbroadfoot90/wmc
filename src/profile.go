@@ -12,6 +12,7 @@ type Profile struct {
 	Tagline    	string
 	Chef       	bool
 	Title		string
+	Likes       int
 	RestaurantIds []string
 }
 
@@ -23,9 +24,9 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	
 	loginInfo := loginDetails(r)
 
-	u, id := targetUser(r)
+	p, id := targetUser(r)
 
-	if u == nil {
+	if p == nil {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		return
 	}
@@ -46,13 +47,13 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	outputToJsonOrTemplate(w, r, struct {
 		LoginInfo *LoginInfo
 		ID   string
-		User *Profile
+		User *Profile // TODO Change to Profile *Profile
 		Comments []Comment
 		C appengine.Context
 	}{
 		loginInfo,
 		id,
-		u,
+		p,
 		comments,
 		c,
 	}, "profile")
