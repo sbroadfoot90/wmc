@@ -1,7 +1,6 @@
 package wmc
 
 import (
-	"html/template"
 	"net/http"
 
 	"appengine"
@@ -9,6 +8,8 @@ import (
 )
 
 func init() {
+	importTemplates("tmpl")
+	
 	http.HandleFunc("/", errorHandler(rootHandler))
 	http.HandleFunc("/profile", errorHandler(profileHandler))
 	http.HandleFunc("/edit", errorHandler(editHandler))
@@ -25,13 +26,13 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 		check(err)
 		
-		t.ExecuteTemplate(w, "root.tmpl", loginURL)
+		templates["index"].ExecuteTemplate(w, "root", loginURL)
 	} else {
 		logoutURL, err := user.LogoutURL(c, "/")
 
 		check(err)
 
-		t.ExecuteTemplate(w, "rootloggedin.tmpl", struct {
+		templates["indexLoggedIn"].ExecuteTemplate(w, "root", struct {
 			User, LogoutURL string
 		}{
 			u.String(),
@@ -40,5 +41,3 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-
-var t = template.Must(template.New("").ParseFiles("tmpl/root.tmpl", "tmpl/rootloggedin.tmpl", "tmpl/profile.tmpl", "tmpl/edit.tmpl"))

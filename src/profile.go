@@ -15,9 +15,9 @@ type Foodie struct {
 
 
 func profileHandler(w http.ResponseWriter, r *http.Request) {
-	user, hasProfile := loginDetails(r)
+	user, _ := loginDetails(r)
 	
-	outputToJsonOrTemplate(w, r, user, "profile.tmpl")
+	outputToJsonOrTemplate(w, r, user, "profile")
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
@@ -40,7 +40,7 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 				check(err)
 			}
 			
-			t.ExecuteTemplate(w, "edit.tmpl", struct{
+			templates["edit"].ExecuteTemplate(w, "root", struct{
 				ID     string
 				Foodie Foodie
 			}{

@@ -1,7 +1,14 @@
-<!DOCTYPE html>
+{{define "root"}}<!DOCTYPE html>
 
 <html>
+<head>
+
+	<meta charset="utf-8">
+	
+	<title>Where's My Chef | {{template "title" .}}</title>
+</head>
 <body>
-	<a href="{{.}}">Login</a>
+	{{template "content" .}}
 </body>
 </html>
+{{end}}

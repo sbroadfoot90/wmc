@@ -16,7 +16,7 @@ func outputToJsonOrTemplate(w http.ResponseWriter, r *http.Request, data interfa
 			return
 		}
 	} else {
-		t.ExecuteTemplate(w, templateName, data)
+		templates[templateName].ExecuteTemplate(w, "root", data)
 	}
 }
 
@@ -42,18 +42,19 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func loginDetails(r *http.Request) (user Foodie, hasProfile bool){
+func loginDetails(r *http.Request) (*Foodie, bool){
 	c:= appengine.NewContext(r)
 	id := r.FormValue("id")
+	c.Debugf(id)
 	key := datastore.NewKey(c, "Profile", id, 0, nil)
 	var f Foodie
 	
 	err := datastore.Get(c, key, &f)
 	// TODO Handle ErrNoSuchEntity
-	if err == datstore.ErrNoSuchEntity {
+	if err == datastore.ErrNoSuchEntity {
 		return nil, false
 	}
 	check(err)
 	
-	return f, true
+	return &f, true
 }
