@@ -54,6 +54,10 @@
 			{{.Comment}} <br />
 		- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {{FormatDate .Time}}
 		</div>
+		{{else}}
+		<div class="comment">
+			Nobody has commented on <strong>{{.Profile.Name}}</strong> yet :(
+		</div>
 		{{end}}
 	</div>
 		{{if .LoginInfo.User}}
@@ -78,6 +82,10 @@
 		<div class="comment">
 			{{.Comment}} <br />
 		- {{if $name}}<a href="/profile?id={{.ToID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {{FormatDate .Time}}
+		</div>
+		{{else}}
+		<div class="comment">
+			<strong>{{.Profile.Name}}</strong> has not made any comments yet :(
 		</div>
 		{{end}}
 	</div>

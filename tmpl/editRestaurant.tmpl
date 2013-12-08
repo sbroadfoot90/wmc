@@ -12,7 +12,8 @@
 		</ul>
 	</div>
 </div>
-
+<div class="wrapper content">
+	<div class="edit_contain">
 {{if .Restaurant}}
 <form action="/editRestaurant" method="post">
 	<input type="hidden" name="rid" value="{{.RID}}" />
@@ -41,4 +42,6 @@
 	<input type="submit" value="Add Restaurant">
 </form>
 {{end}}
+</div>
+</div>
 {{end}}
