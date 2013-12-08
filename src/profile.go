@@ -1,20 +1,25 @@
 package wmc
 
 import (
+	"errors"
 	"net/http"
+	"strings"
 
 	"appengine"
+	"appengine/blobstore"
 	"appengine/datastore"
 	"appengine/memcache"
 )
 
 type Profile struct {
-	Name          string
-	Tagline       string
-	Chef          bool
-	Title         string
-	Likes         int
-	RestaurantIds []string
+	Name                string
+	Tagline             string
+	ProfilePicture      appengine.BlobKey
+	Chef                bool
+	Title               string
+	Likes               int
+	CurrentRestaurantID string
+	PastRestaurantIds   []string
 }
 
 // TODO populate from file
@@ -72,9 +77,11 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	}, "profile")
 }
 
+// Edit get requests show an edit form, whereas post requests update a user.
 func editHandler(w http.ResponseWriter, r *http.Request) {
 	loginInfo := loginDetails(r)
 
+	// If not logged in, cannot edit their profile
 	if loginInfo.User == nil {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
@@ -83,29 +90,45 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 			loginInfo.Profile = &Profile{}
 		}
 		if r.Method == "GET" {
-			editGetHandler(w, loginInfo)
+			editGetHandler(w, r, loginInfo)
 		} else if r.Method == "POST" {
 			editPostHandler(w, r, loginInfo)
 		}
-
 	}
-
 }
 
-func editGetHandler(w http.ResponseWriter, loginInfo *LoginInfo) {
+func editGetHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo) {
+	c := appengine.NewContext(r)
+
+	uploadURL, err := blobstore.UploadURL(c, "/edit", nil)
+	check(err)
+
+	restaurants := make([]Restaurant, 0, 20)
+
+	q := datastore.NewQuery("Restaurant").Limit(20)
+
+	keys, err := q.GetAll(c, &restaurants)
+
 	templates["edit"].ExecuteTemplate(w, "root", struct {
-		LoginInfo   *LoginInfo
-		ValidTitles []string
-		UploadURL   string
+		LoginInfo      *LoginInfo
+		ValidTitles    []string
+		Restaurants    []Restaurant
+		RestaurantKeys []*datastore.Key
+		UploadURL      string
 	}{
 		loginInfo,
 		Titles,
-		"/edit",
+		restaurants,
+		keys,
+		uploadURL.String(),
 	})
 }
 
 func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo) {
 	c := appengine.NewContext(r)
+
+	blobs, values, err := blobstore.ParseUpload(r)
+	check(err)
 
 	p := loginInfo.Profile
 
@@ -113,22 +136,58 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 		p = &Profile{}
 	}
 
-	p.Name = r.FormValue("Name")
-	if tagline := r.FormValue("Tagline"); len(tagline) <= 40 {
+	p.Name = values.Get("Name")
+	if tagline := values.Get("Tagline"); len(tagline) <= 40 {
 		p.Tagline = tagline
 	}
 
-	isChef := r.FormValue("IsChef") == "yes"
+	isChef := values.Get("IsChef") == "yes"
 	p.Chef = isChef
 	if isChef {
+		// validate chef title
 		for _, title := range Titles {
-			if title == r.FormValue("Title") {
+			if title == values.Get("Title") {
 				p.Title = title
 			}
 		}
+		
+		// validate restaurant id
+		rid := values.Get("Restaurant")
+		if rid != "" && retrieveRestaurant(c, rid) != nil {
+			if p.CurrentRestaurantID != "" {
+				alreadyExists := false
+				for _, prid := range p.PastRestaurantIds {
+					if rid == prid {
+						alreadyExists = true
+						break
+					}
+				}
+				if !alreadyExists {
+					p.PastRestaurantIds = append(p.PastRestaurantIds, rid)
+				}
+			}
+			p.CurrentRestaurantID = rid
+			
+		}
+	}
+	var oldProfilePicture appengine.BlobKey
+
+	if len(blobs["ProfilePicture"]) > 0 {
+		blobInfo := blobs["ProfilePicture"][0]
+		if !strings.HasPrefix(blobInfo.ContentType, "image") {
+			blobstore.Delete(c, blobInfo.BlobKey) // discard error, doesn't matter as this is just an optimisation
+			check(errors.New("File uploaded not image type"))
+		}
+		oldProfilePicture = p.ProfilePicture
+		p.ProfilePicture = blobInfo.BlobKey
 	}
 
 	updateProfile(c, loginInfo.User.ID, p)
+
+	//if the update was successful, delete old profile picture
+	if oldProfilePicture != "" {
+		blobstore.Delete(c, oldProfilePicture) // discard error, doesn't matter as this is just an optimisation
+	}
 
 	if isChef {
 		http.Redirect(w, r, "/profile?id="+loginInfo.User.ID, http.StatusFound)

@@ -14,9 +14,11 @@ func importTemplates(templatePath string) {
 		"index",
 		"restaurant",
 		"editRestaurant",
+		"top10",
 	}
 	fm := template.FuncMap{
-		"Username": Username,
+		"UserName": userName,
+		"RestaurantName" : restaurantName,
 	}
 	for _, templateName := range templateNames {
 		root := filepath.Join(templatePath, "root.tmpl")

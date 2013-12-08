@@ -1,9 +1,8 @@
 {{define "root"}}
-
-<!DOCTYPE html>
-<html>
+<!doctype html>        
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<title>Where's My Chef | {{template "title" .}}</title>
 	
 	<link rel="stylesheet" href="css/style.css" />
@@ -18,25 +17,33 @@
 	});
 	</script>
 </head>
-<body>
-	<header>
-	{{with .LoginInfo}}
-	{{if .User}}
-	<a href="/">/root/</a> | 
-		{{if .Profile}} Welcome <a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a> | {{end}}
-		
-		{{if .Profile}}
-			<a href="/edit">Edit My Profile</a> | 
-		{{else}}
-			<a href="/edit">Create a Profile</a> | 
+
+<body lang="en">
+    <header class="wrapper branding">
+		{{with .LoginInfo}}
+		<nav>
+			{{if .User}}
+			<ul>
+				{{if .Profile}}<li><a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a></li>{{end}}
+				
+				{{if .Profile}}
+				<li><a href="/edit">Update Profile</a></li>
+				{{else}}
+				<li><a href="/edit">Create Profile</a></li>
+				{{end}}
+				<li><a href="/newRestaurant">Add Restaurant</a></li>
+				<li><a href="{{.LOUrl}}">Logout</a></li>
+			</ul>
+			{{else}}
+			<ul>
+				<li><a href="{{.LOUrl}}">Login</a></li>
+			</ul>
+			{{end}}
+		</nav>
 		{{end}}
-		
-		<a href="{{.LOUrl}}">Logout</a> 
-	{{else}}
-		<a href="{{.LOUrl}}">Login</a>
-	{{end}}
-	{{end}}
-	</header>
+
+		<img src="img/logoMain.png"/>
+    </header>
 	{{template "content" .}}
 </body>
 </html>

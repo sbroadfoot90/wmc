@@ -20,3 +20,9 @@ indexes:
   properties:
   - name: Time
     direction: desc
+
+- kind: Profile
+  properties:
+  - name: Chef
+  - name: Likes
+    direction: desc

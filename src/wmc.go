@@ -10,13 +10,14 @@ func init() {
 	http.HandleFunc("/", errorHandler(rootHandler))
 	http.HandleFunc("/profile", errorHandler(profileHandler))
 	http.HandleFunc("/edit", errorHandler(editHandler))
+	http.HandleFunc("/serve", errorHandler(blobServeHandler))
 	http.HandleFunc("/comment", errorHandler(commentHandler))
 	http.HandleFunc("/firsttime", errorHandler(firstTimeHandler))
 	http.HandleFunc("/like", errorHandler(likeHandler))
 	http.HandleFunc("/restaurant", errorHandler(restaurantHandler))
 	http.HandleFunc("/editRestaurant", errorHandler(editRestaurantHandler))
 	http.HandleFunc("/newRestaurant", errorHandler(newRestaurantHandler))
-	http.HandleFunc("/topn", errorHandler(topnHandler))
+	http.HandleFunc("/top10", errorHandler(topHandler))
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {

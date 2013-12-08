@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func topnHandler(w http.ResponseWriter, r *http.Request) {
+func topHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	n := 10
 	q := datastore.NewQuery("Profile").Filter("Chef=", true).Order("-Likes").Limit(n)
@@ -26,6 +26,6 @@ func topnHandler(w http.ResponseWriter, r *http.Request) {
 		loginInfo,
 		profiles,
 		keys,
-	}, "topn")
+	}, "top10")
 
 }

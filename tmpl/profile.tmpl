@@ -1,21 +1,67 @@
 {{define "title"}}{{.Profile.Name}}{{end}}
-{{define "content"}}
-{{$c := .C}}
-	{{if .Profile.Chef}}
-	<p>CHEF IMAGE</p>
-	{{end}}
 
-	Username: {{.Profile.Name}} <br />
+{{define "content"}}
+
+{{$c := .C}}
+<div class="wrapper content">
+	<div class="profile_info">
+		<div class="prof_contain">
+			{{if .Profile.ProfilePicture}}
+			<a href="/serve?blobKey={{.Profile.ProfilePicture}}"><img src="/serve?blobKey={{.Profile.ProfilePicture}}" style="height: 100px;"/></a>
+			{{else}}
+			<img src="jamie.png" style="height: 100px;"/>
+			{{end}}
+			<ul>
+				<li><h2>{{.Profile.Name}}</h2></li>
+				{{if .Profile.Chef}}
+				<li>{{.Profile.Title}}</li>
+				{{end}}
+				<li>{{.Profile.Tagline}}</li>
+				<li>{RESTAURANT} {RESTAURANT ADDRESS}</li>
+			</ul>
+		</div>
+	</div>
 	{{if .Profile.Chef}}
-		Title: {{.Profile.Title}}<br />
+	<div class="likes_shares">
+		{{if .AlreadyLiked}}
+			<span class="like_button_disabled">{{.Profile.Likes}}</span>
+		{{else}}
+			<a href="#" class="like_button">{{.Profile.Likes}}</a>
+		{{end}}
+		<div class="share_profile">
+			Share: FB, Twitter, G+
+		</div>
+	</div>
+	<div class="comment_list">
+		{{range .Comments}}
+			{{$name := Username $c .FromID}}
+		<div class="comment">
+			{{.Comment}} <br />
+		- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {FORMATTED DATE}
+		</div>
+		{{end}}
+	</div>
 	{{end}}
-	Tagline: {{.Profile.Tagline}} <br />
-	
-	{{/* EXTRA CHEF STUFF */}}
-	
+</div>
+
+
+
+
+
+
+
+
+
+
 	{{if .Profile.Chef}}
+		Current Restaurant:
+		{{if .Profile.CurrentRestaurantID}}
+		<a href="/restaurant?rid={{.Profile.CurrentRestaurantID}}">{{RestaurantName $c .Profile.CurrentRestaurantID}}</a></br>
+		{{end}}
+		
+		Past Restaurants:
 		<ul>
-			{{range .Profile.RestaurantIds}}
+			{{range .Profile.PastRestaurantIds}}
 			<li>{{.}}</li>
 			{{end}}
 		</ul>
@@ -38,7 +84,7 @@
 	
 		<ul>
 		{{range .Comments}}
-			{{$name := Username $c .FromID}}
+			{{$name := UserName $c .FromID}}
 			<li>
 				{{.Comment}} -- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}
 			</li>
