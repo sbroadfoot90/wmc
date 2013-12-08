@@ -13,10 +13,25 @@
 	</div>
 </div>
 <div class="wrapper content">
-Restaurant Name: {{.Restaurant.Name}}<br />
-Address: {{.Restaurant.Address}}<br />
-<a href="/editRestaurant?rid={{.RID}}">Edit Restaurant</a>
-<br />
-
+	<div class="profile_info">
+		<div class="prof_contain">
+			{{if .Restaurant.RestaurantLogo}}
+				<img src="/serve?blobKey={{.Restaurant.RestaurantLogo}}" style="height: 100px;"/>
+			{{else}}
+				<img src="img/jamie.png" style="height: 100px;"/>
+			{{end}}
+			<ul>
+				<li><h2>{{.Restaurant.Name}}</h2></li>
+				<li>{{.Restaurant.Address}}</li>
+				<li><a href="{{.Restaurant.URL}}">Check their website</a></li>
+				<li><a href="/editRestaurant?rid={{.RID}}">Edit Restaurant</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="comment_list">
+		<div class="comment">
+			Nobody works at <strong>{{.Restaurant.Name}}</strong> :(
+		</div>
+	</div>
 </div>
 {{end}}

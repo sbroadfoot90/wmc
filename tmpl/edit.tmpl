@@ -24,7 +24,11 @@
 			<input type="text" name="Tagline" value="{{.LoginInfo.Profile.Tagline}}" /><br />
 	
 			<label for="ProfilePicture">Profile Pic:</label>
+			{{if .LoginInfo.Profile.ProfilePicture}}
 			<img src="/serve?blobKey={{.LoginInfo.Profile.ProfilePicture}}" style="height: 100px;"/>
+			{{else}}
+			<img src="img/3b_profilePic_0_empty.png" style="height: 100px;"/>
+			{{end}}
 			<input type="file" name="ProfilePicture"><br />
 	
 			<label for="IsChef">Is Chef?:</label>
@@ -51,7 +55,6 @@
 				<select name="Restaurant">
 					{{range $i, $restaurant := .Restaurants}}
 					{{$restaurantKey := index $restaurantKeys $i}}
-						<option value="{{$restaurantKey.StringID}}" selected>{{.Name}}</option>
 						<option value="{{$restaurantKey.StringID}}">{{.Name}}</option>
 					{{end}}
 				</select>

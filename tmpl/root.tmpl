@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	<title>Where's My Chef | {{template "title" .}}</title>
+	<title>Who's My Chef | {{template "title" .}}</title>
 	
 	<link rel="stylesheet" href="css/style.css" />
 	
@@ -29,6 +29,7 @@
 				{
 					console.log('here');
 					$('.like_button').replaceWith('<span class="like_button_disabled">'+(amnt+1)+'</span>');
+					$('.also_like_label').hide();
 					$('.also_like').hide();
 				});
 		});
@@ -37,6 +38,15 @@
 		{
 			$('.edit_chef').slideToggle();
 		});
+		
+		$('.review_button').click(function()
+		{
+			$('.review_text').slideToggle("fast");
+			$('.review_button').hide();
+			$('.review_text textarea').focus()
+			
+		});	
+		
 		console.log('online');
 	});
 	</script>
