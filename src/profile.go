@@ -1,6 +1,8 @@
 package wmc
 
 import (
+	"strings"
+	"errors"
 	"net/http"
 
 	"appengine"
@@ -139,7 +141,12 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	}
 
 	if len(blobs["ProfilePicture"]) > 0 {
-		p.ProfilePicture = blobs["ProfilePicture"][0].BlobKey
+		blobInfo := blobs["ProfilePicture"][0]
+		if !strings.HasPrefix(blobInfo.ContentType, "image") {
+			blobstore.Delete(c, blobInfo.BlobKey) // discard error, doesn't matter as this is just an optimisation
+			check(errors.New("File uploaded not image type"))
+		}
+		p.ProfilePicture = blobInfo.BlobKey
 	}
 
 	updateProfile(c, loginInfo.User.ID, p)
