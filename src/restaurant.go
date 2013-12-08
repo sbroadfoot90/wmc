@@ -91,10 +91,12 @@ func editRestaurantGetHandler(w http.ResponseWriter, loginInfo *LoginInfo, rest 
 		LoginInfo  *LoginInfo
 		Restaurant *Restaurant
 		RID        string
+		UploadURL  string
 	}{
 		loginInfo,
 		rest,
 		rid,
+		"/editRestaurant",
 	})
 }
 
