@@ -13,10 +13,20 @@
 	$(function()
 	{
 	
-		$('.review_button button').click(function()
+		$('.review_button').click(function()
 		{
-		
+			$('.review_text').slideToggle("fast");
+			$('.review_button').hide();
+			$('.review_text textarea').focus()
+			
 		});	
+		
+		$('.review_text button').click(function()
+		{
+			var input = $('review_text textarea').text();
+			
+		});
+		
 		
 	});
 	</script>
@@ -86,8 +96,20 @@
 			Comment
 			</div>
 		</div>
-		<button type="button">Write Review</button>
+		<button type="button"  class="review_button">Write Review</button>
+			<div class="review_text" style="display:none">
+				<br>
+				<textarea rows="4" cols="100">
+				</textarea>
+				<br>
+				<button type="button">Post Review</button>
+			</div>
 	</div>
+	<div class ="appImages">
+		<a href="#"><img src="facebook.png" alt="facebook"></a>
+		<a href="#"><img src="twitter.png" alt="facebook"></a>	
+		<a href="#"><img src="google+.png" alt="facebook"></a>	
+	</div>	
 </body>
         
 </html>
