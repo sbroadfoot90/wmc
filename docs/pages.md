@@ -34,6 +34,10 @@ Pages
 * Reverse direction of Chef Profile
 * (profile.tmpl)
 
+**04b Foodie Profile Page - Share Review**
+* Makes all fields (which are the same as the Chef Sign Up fields) editable
+* May not technically be a page but a pop up dialogue of some sort (see mockup)?
+
 **05a Restaurant Page**
 * Shows name, address, co-ords (if present)
 * Google maps integration
