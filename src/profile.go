@@ -33,6 +33,8 @@ var Titles = []string{
 }
 
 func profileHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	
 	if r.FormValue("id") == "" {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		// TODO Maybe have a list of all profiles here?
@@ -46,18 +48,20 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		return
 	}
-
-	c := appengine.NewContext(r)
-	key := datastore.NewKey(c, "Profile", id, 0, nil)
-
+	
+	// When viewing a chef, show comments made on chef's page
+	// When viewing a foodie, show comments made to chefs
+	var filterString string
+	if p.Chef {
+		filterString = "ToID="
+	} else {
+		filterString = "FromID="
+	}
+	
 	n := 10
-
-	q := datastore.NewQuery("Comment").Ancestor(key).Order("-Time").Limit(n)
-
+	q := datastore.NewQuery("Comment").Order("-Time").Filter(filterString, id).Limit(n)
 	comments := make([]Comment, 0, n)
-
 	_, err := q.GetAll(c, &comments)
-
 	check(err)
 
 	outputToJsonOrTemplate(w, r, struct {

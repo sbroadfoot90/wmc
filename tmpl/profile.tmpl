@@ -58,6 +58,16 @@
 	
 		</form>
 		{{end}}
+	{{else}}
+	<div class="comment_list">
+		{{range .Comments}}
+			{{$name := UserName $c .ToID}}
+		<div class="comment">
+			{{.Comment}} <br />
+		- {{if $name}}<a href="/profile?id={{.ToID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {FORMATTED DATE}
+		</div>
+		{{end}}
+	</div>
 	{{end}}
 </div>
 {{end}}
