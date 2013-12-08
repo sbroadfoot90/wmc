@@ -100,6 +100,7 @@ header {
 	border-radius: 3px;
 	margin-bottom: 10px;
 	background-color: #dec8af;
+	background: url('../img/inner_bg.png');
 }
 
 .profile_info {
