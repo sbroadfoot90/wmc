@@ -35,7 +35,7 @@ Pages
 * (profile.tmpl)
 
 **04b Foodie Profile Page - Share Review**
-* Makes all fields (which are the same as the Chef Sign Up fields) editable
+* Selects one of the four Social MEdia sites to share to (linked in, twitter, facebook, etc)
 * May not technically be a page but a pop up dialogue of some sort (see mockup)?
 
 **05a Restaurant Page**
