@@ -1,0 +1,169 @@
+body {
+	background: url('fabric.png');
+	border-top: 3px solid #c36219;
+	font: 16px Helvetica;
+	padding: 0;
+	margin: 0;
+	min-width: 320px;
+}
+
+.wrapper {
+	width: 93.5%;
+	margin: 0 auto;
+}
+
+nav {
+	padding: 8px;
+	/*background-color: #f00;*/
+	text-align: right;
+}
+
+nav a {
+	color: #c36219;
+	
+}
+
+nav ul {
+	display: inline;
+	list-style-type: none;
+}
+
+nav ul li {
+	margin-right: 5px;
+	display: inline;
+}
+
+nav ul li:last-of-type {
+	margin-right: 0;
+}
+
+header {
+	text-align: center;
+}
+
+.branding {
+	margin-bottom: 10px;
+}
+
+
+.search_box {
+	text-align: center;
+	
+	background-color: #f7f7f7;
+	border-bottom: 1px solid #e6e6e6;
+
+	margin-bottom: 10px;
+
+}
+
+.search_box .search_contain {
+	padding: 10px;
+}
+
+.search_box .search_input {
+	padding-right: 34px !important;
+	border: 0;
+	padding: 10px;
+	width: 50%;
+	border: 1px solid #777;
+	border-radius: 5px;
+	background: #fefefe url('submit_bg.png') right center repeat-y !important;
+}
+
+.search_box .search_go {
+	margin-left: -38px;
+	margin-bottom: -13px;
+	border-radius: 5px;
+}
+
+.content {
+	border: 1px solid #777;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	background-color: #dec8af;
+}
+
+.profile_info {
+	border-bottom: 1px solid #777;
+	display: inline-block;
+	width: 100%;
+}
+
+.profile_info:after {
+	 visibility: hidden;
+	 display: block;
+	 font-size: 0;
+	 content: "";
+	 clear: both;
+	 height: 0;
+}
+
+.profile_info > .prof_contain {
+	padding: 5px;
+	display: inline-block;
+}
+
+.profile_info img {
+	border: 1px solid #777;
+	border-radius: 5px;
+	float: left;
+}
+
+.profile_info ul {
+	float: left;
+	list-style-type: none;
+	margin: 0;
+	margin-top: 15px;
+	margin-left: 15px;
+	padding: 0;
+}
+
+.profile_info ul li {
+	margin-bottom: 3px;
+	
+}
+
+.profile_info h2 {
+	display: inline;
+	font-size: 120%;
+	border-bottom: 1px solid #333;
+}
+
+.likes_shares {
+	clear: both;
+	border-bottom: 1px solid #777;
+	padding: 5px;
+}
+
+.likes_shares .like_button {
+	display: inline-block;
+	padding: 10px;
+	padding-left: 70px;
+	background: url('hat.png') no-repeat;
+	background-position: 10px center;
+	background-color: #f39e14;
+	font-size: 180%;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 3px;
+}
+
+.likes_shares .share_profile {
+	float: right;
+}
+
+.comment_list {
+	padding: 5px;
+}
+
+.comment_list .comment {
+	background-color: #f1dcc6;
+	border: 1px solid #333;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	padding: 10px
+}
+
+.comment_list .comment:last-of-type {
+	margin-bottom: 0;
+}

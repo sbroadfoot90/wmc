@@ -17,6 +17,7 @@ func init() {
 	http.HandleFunc("/restaurant", errorHandler(restaurantHandler))
 	http.HandleFunc("/editRestaurant", errorHandler(editRestaurantHandler))
 	http.HandleFunc("/newRestaurant", errorHandler(newRestaurantHandler))
+	http.HandleFunc("/topn", errorHandler(topnHandler))
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {

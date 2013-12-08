@@ -3,7 +3,6 @@ package wmc
 import (
 	"appengine"
 	"appengine/user"
-
 	"encoding/json"
 	"net/http"
 )

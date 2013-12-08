@@ -154,7 +154,7 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	if isChef {
 		http.Redirect(w, r, "/profile?id="+loginInfo.User.ID, http.StatusFound)
 	} else {
-		http.Redirect(w, r, "/root", http.StatusFound)
+		http.Redirect(w, r, "/", http.StatusFound)
 	}
 }
 

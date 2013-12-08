@@ -38,4 +38,5 @@ Front-end
 * Integrate HTML with Go Template engine
 * Work on mobile designs
 * Integrate Google Maps/jQuery stuff
+* http://gmaps-samples.googlecode.com/svn/trunk/simplewizard/makestaticmap.html
 * Alternate logo for mobile
