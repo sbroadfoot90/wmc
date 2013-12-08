@@ -139,6 +139,7 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 			}
 		}
 	}
+	var oldProfilePicture appengine.BlobKey
 
 	if len(blobs["ProfilePicture"]) > 0 {
 		blobInfo := blobs["ProfilePicture"][0]
@@ -146,10 +147,16 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 			blobstore.Delete(c, blobInfo.BlobKey) // discard error, doesn't matter as this is just an optimisation
 			check(errors.New("File uploaded not image type"))
 		}
+		oldProfilePicture = p.ProfilePicture
 		p.ProfilePicture = blobInfo.BlobKey
 	}
 
 	updateProfile(c, loginInfo.User.ID, p)
+
+	//if the update was successful, delete old profile picture
+	if oldProfilePicture != "" {
+		blobstore.Delete(c, oldProfilePicture) // discard error, doesn't matter as this is just an optimisation
+	}
 
 	if isChef {
 		http.Redirect(w, r, "/profile?id="+loginInfo.User.ID, http.StatusFound)
