@@ -29,9 +29,24 @@
 		</div>
 	</div>
 	<div class="comment_list">
-		<div class="comment">
+		{{$profileKeys := .ProfileKeys}}
+			{{range $i, $profile := .Profiles}}
+			{{$profileKey := index $profileKeys $i}}
+			<div class="comment">
+				{{if .ProfilePicture}}
+			<a href="/serve?blobKey={{.ProfilePicture}}"><img src="/serve?blobKey={{.ProfilePicture}}" style="height: 100px; vertical-align: middle;"/></a>
+			{{else}}
+			<img src="img/3b_profilePic_0_empty.png" style="height: 100px; vertical-align: middle;"/>
+			{{end}}
+			<a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a><br />
+			<em>"{{.Tagline}}"</em>
+			</div>
+			{{else}}
+			<div class="comment">
 			Nobody works at <strong>{{.Restaurant.Name}}</strong> :(
 		</div>
+			{{end}}
+
 	</div>
 </div>
 {{end}}
