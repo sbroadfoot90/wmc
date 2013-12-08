@@ -31,29 +31,33 @@
 			{{if .LoginInfo.Profile.Chef}}
 			<input type="checkbox" name="IsChef" value="yes" checked/><br />
 			{{else}}
-			<input type="checkbox" name="IsChef" value="yes" /><br />
+			<input type="checkbox" name="IsChef" value="yes" class="is_chef"/><br />
 			{{end}}
-	
-			<label for="Title">Chef Title</label>
+			
 			{{if .LoginInfo.Profile.Chef}}
-			<select name="Title">
-				{{range .ValidTitles}}
-					<option value="{{.}}">{{.}}</option>
-				{{end}}
-			</select><br />
-	
-			<label for="Restaurant">Restaurant</label>
-			{{$restaurantKeys := .RestaurantKeys}}
-			<select name="Restaurant">
-				{{range $i, $restaurant := .Restaurants}}
-				{{$restaurantKey := index $restaurantKeys $i}}
-					<option value="{{$restaurantKey.StringID}}" selected>{{.Name}}</option>
-					<option value="{{$restaurantKey.StringID}}">{{.Name}}</option>
-				{{end}}
-			</select><br />
+			<div style="display:block" class="edit_chef">
+			{{else}}
+			<div style="display:none" class="edit_chef">
 			{{end}}
+				<label for="Title">Chef Title</label>
+				<select name="Title">
+					{{range .ValidTitles}}
+						<option value="{{.}}">{{.}}</option>
+					{{end}}
+				</select><br />
 	
-			<input type="submit" value="Edit" />
+				<label for="Restaurant">Restaurant</label>
+				{{$restaurantKeys := .RestaurantKeys}}
+				<select name="Restaurant">
+					{{range $i, $restaurant := .Restaurants}}
+					{{$restaurantKey := index $restaurantKeys $i}}
+						<option value="{{$restaurantKey.StringID}}" selected>{{.Name}}</option>
+						<option value="{{$restaurantKey.StringID}}">{{.Name}}</option>
+					{{end}}
+				</select>
+			</div>
+	
+			<input type="submit" value="Update" />
 		</form>
 	</div>
 </div>

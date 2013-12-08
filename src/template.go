@@ -2,10 +2,10 @@ package wmc
 
 import (
 	"appengine"
-	"time"
-	"strconv"
 	"html/template"
 	"path/filepath"
+	"strconv"
+	"time"
 )
 
 var templates map[string]*template.Template = make(map[string]*template.Template)
@@ -22,10 +22,10 @@ func importTemplates(templatePath string) {
 	fm := template.FuncMap{
 		"UserName":       userName,
 		"RestaurantName": restaurantName,
-		"FormatDate":formatDate,
+		"FormatDate":     formatDate,
 		"eq":             equals,
 		"neq":            notequals,
-		"seq":             sequals,
+		"seq":            sequals,
 	}
 	for _, templateName := range templateNames {
 		root := filepath.Join(templatePath, "root.tmpl")
@@ -63,14 +63,14 @@ func formatDate(t time.Time) string {
 		v = int(d.Hours())
 		typ = "hour"
 	} else {
-		v = int(d.Hours()/24)
+		v = int(d.Hours() / 24)
 		typ = "day"
 	}
-	
+
 	if v != 1 {
 		typ = typ + "s"
 	}
-	
+
 	return strconv.Itoa(v) + " " + typ + " ago"
 }
 

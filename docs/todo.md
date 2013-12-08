@@ -4,7 +4,6 @@ Day 2
 Back-end
 ----
 Restaurant
-* Add edit link to page
 * Restaurant logo
 * Restaurant URL
 * List current employees (& past employees?)

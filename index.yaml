@@ -36,6 +36,20 @@ indexes:
 - kind: Comment
   ancestor: yes
   properties:
+  - name: FromID
+  - name: Time
+    direction: desc
+
+- kind: Comment
+  ancestor: yes
+  properties:
+  - name: Time
+    direction: desc
+
+- kind: Comment
+  ancestor: yes
+  properties:
+  - name: ToID
   - name: Time
     direction: desc
 

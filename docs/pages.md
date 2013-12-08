@@ -25,10 +25,18 @@ Pages
 * Chef can view who has liked them (low priority)
 * (profile.tmpl)
 
+**03c Chef Index/Edit Profile Page**
+* Makes all fields (which are the same as the Chef Sign Up fields) editable
+* May not technically be a page but a pop up dialogue of some sort (see mockup)?
+
 **04a Foodie Profile**
 * Shows likes & comments made by foodies
 * Reverse direction of Chef Profile
 * (profile.tmpl)
+
+**04b Foodie Profile Page - Share Review**
+* Selects one of the four Social MEdia sites to share to (linked in, twitter, facebook, etc)
+* May not technically be a page but a pop up dialogue of some sort (see mockup)?
 
 **05a Restaurant Page**
 * Shows name, address, co-ords (if present)
