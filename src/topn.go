@@ -9,25 +9,23 @@ import (
 func topnHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	n := 10
-	q := datastore.NewQuery("Profile").Order("-Likes").Limit(n)
+	q := datastore.NewQuery("Profile").Filter("Chef=", true).Order("-Likes").Limit(n)
 	loginInfo := loginDetails(r)
 
 	profiles := make([]Profile, 0, n)
 
-	_, err := q.GetAll(c, &profiles)
+	keys, err := q.GetAll(c, &profiles)
 
 	check(err)
-	_ = loginInfo
-	// outputToJsonOrTemplate(w, r, struct {
-	// 	LoginInfo    *LoginInfo
-	// 	Profiles	[]Profile
-	// 	C            appengine.Context
-	// }{
-	// 	loginInfo,
-	// 	profiles,
-	// 	c,
-	// }, "topn")
-	//
-	//
+
+	outputToJsonOrTemplate(w, r, struct {
+		LoginInfo   *LoginInfo
+		Profiles    []Profile
+		ProfileKeys []*datastore.Key
+	}{
+		loginInfo,
+		profiles,
+		keys,
+	}, "topn")
 
 }
