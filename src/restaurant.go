@@ -14,10 +14,12 @@ import (
 type Restaurant struct {
 	Name           string
 	Address        string
+	URL            string
 	RestaurantLogo appengine.BlobKey
 }
 
 func restaurantHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
 	if r.FormValue("rid") == "" {
 		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
 		return
@@ -32,14 +34,24 @@ func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	q := datastore.NewQuery("Profile").Filter("CurrentRestaurantID=", rid)
+	profiles := make([]*Profile, 0, 100)
+
+	keys, err := q.GetAll(c, &profiles)
+	check(err)
+
 	outputToJsonOrTemplate(w, r, struct {
-		LoginInfo  *LoginInfo
-		RID        string
-		Restaurant *Restaurant
+		LoginInfo   *LoginInfo
+		RID         string
+		Restaurant  *Restaurant
+		ProfileKeys []*datastore.Key
+		Profiles    []*Profile
 	}{
 		loginInfo,
 		rid,
 		rest,
+		keys,
+		profiles,
 	}, "restaurant")
 }
 
@@ -116,6 +128,7 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 
 	rest.Name = values.Get("Name")
 	rest.Address = values.Get("Address")
+	rest.URL = values.Get("URL")
 
 	var oldRestaurantLogo appengine.BlobKey
 
