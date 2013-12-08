@@ -15,8 +15,11 @@
 <div class="wrapper content">
 	<div class="profile_info">
 		<div class="prof_contain">
+			{{if .Restaurant.RestaurantLogo}}
+			<img src="/serve?blobKey={{.Restaurant.RestaurantLogo}}" style="height: 100px;"/>
+			{{else}}
 			<img src="img/jamie.png" style="height: 100px;"/>
-
+			{{end}}
 			<ul>
 				<li><h2>{{.Restaurant.Name}}</h2></li>
 				<li>{{.Restaurant.Address}}</li>
