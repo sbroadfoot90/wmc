@@ -1,0 +1,12 @@
+CHEFS
+Jerry Hyun, Hellenic Club, Pizza Professional, 3
+Laurie Bobbie, Gus's Cafe, Barista, 1
+Donald Brenden, La Scala, Enjoys Meatballs, 1
+Frank Synd, La Scala, Speciality Pasta, 2
+Bill Linton, Gus's Cafe, Professional Wedge Maker, 4
+Andy Geordie, City Labour Club, Barman, 1
+Landon Nes, City Labour Club, Skilled With Cutlets, 5
+Flanagan Idelle, Hellenic Club, Vegetarian, 4
+Blaine Filippa, La Scala, Enjoys African Food, 5
+
+
