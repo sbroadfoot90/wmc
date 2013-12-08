@@ -16,7 +16,6 @@ func init() {
 	http.HandleFunc("/like", errorHandler(likeHandler))
 	http.HandleFunc("/restaurant", errorHandler(restaurantHandler))
 	http.HandleFunc("/editRestaurant", errorHandler(editRestaurantHandler))
-	http.HandleFunc("/newRestaurant", errorHandler(newRestaurantHandler))
 	http.HandleFunc("/top10", errorHandler(topHandler))
 }
 

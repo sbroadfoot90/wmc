@@ -55,24 +55,6 @@ func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 	}, "restaurant")
 }
 
-func newRestaurantHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	}
-
-	loginInfo := loginDetails(r)
-
-	if loginInfo.User == nil {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	} else {
-		if r.Method == "GET" {
-			editRestaurantGetHandler(w, r, loginInfo)
-		}
-	}
-}
-
 func editRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 	loginInfo := loginDetails(r)
 	if loginInfo.User == nil {
@@ -94,6 +76,10 @@ func editRestaurantGetHandler(w http.ResponseWriter, r *http.Request, loginInfo 
 
 	rest, rid := targetRestaurant(r)
 
+	if rest == nil {
+		rest = &Restaurant{}
+	}
+
 	templates["editRestaurant"].ExecuteTemplate(w, "root", struct {
 		LoginInfo  *LoginInfo
 		Restaurant *Restaurant
@@ -114,17 +100,29 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 	blobs, values, err := blobstore.ParseUpload(r)
 	check(err)
 	rid := values.Get("rid")
+	c.Debugf("initial rid: %s", rid)
+
+	var rest *Restaurant
 
 	if rid == "" {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	}
+		name := values.Get("Name")
+		if name == "" {
+			check(errors.New("Name can't be empty"))
+		}
+		rid = sanitiseRID(name)
 
-	rest := retrieveRestaurant(c, rid)
-
-	if rest == nil {
+		for rest = retrieveRestaurant(c, rid); rest != nil; {
+			rid = rid + "x"
+		}
 		rest = &Restaurant{}
+	} else {
+		rest = retrieveRestaurant(c, rid)
+		if rest == nil {
+			http.Redirect(w, r, "/", http.StatusFound)
+		}
 	}
+
+	c.Debugf("final rid: %s", rid)
 
 	rest.Name = values.Get("Name")
 	rest.Address = values.Get("Address")
