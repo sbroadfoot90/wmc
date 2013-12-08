@@ -59,7 +59,7 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	n := 10
-	q := datastore.NewQuery("Comment").Order("-Time").Filter(filterString, id).Limit(n)
+	q := datastore.NewQuery("Comment").Ancestor(commentBookKey(c)).Order("-Time").Filter(filterString, id).Limit(n)
 	comments := make([]Comment, 0, n)
 	_, err := q.GetAll(c, &comments)
 	check(err)

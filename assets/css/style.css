@@ -12,6 +12,10 @@ body {
 	margin: 0 auto;
 }
 
+header img:hover {
+	cursor: pointer;
+}
+
 nav {
 	padding: 8px;
 	/*background-color: #f00;*/
@@ -96,6 +100,7 @@ header {
 	border-radius: 3px;
 	margin-bottom: 10px;
 	background-color: #dec8af;
+	background: url('../img/inner_bg.png');
 }
 
 .profile_info {
@@ -154,7 +159,7 @@ header {
 	display: inline-block;
 	padding: 10px;
 	padding-left: 70px;
-	background: url('hat.png') no-repeat;
+	background: url('../img/hat.png') no-repeat;
 	background-position: 10px center;
 	background-color: #f39e14;
 	font-size: 180%;
@@ -167,6 +172,8 @@ header {
 	display: inline-block;
 	padding: 10px;
 	padding-left: 70px;
+	background: url('../img/hat.png') no-repeat;
+	background-position: 10px center;
 	background-color: #aaa;
 	font-size: 180%;
 	color: #fff;
@@ -191,4 +198,12 @@ header {
 
 .comment_list .comment:last-of-type {
 	margin-bottom: 0;
+}
+
+.edit_contain {
+	padding: 10px;
+}
+
+.edit_contain label {
+	width: 300px;
 }

@@ -13,6 +13,30 @@
 	
 	$(function()
 	{
+		$('header img').click(function()
+		{
+			$('.search_box').slideToggle();
+		});
+		
+		$('.like_button').click(function()
+		{
+				var params = {};
+				var amnt = $('.like_button').text();
+				params.id = $('.like_button').attr('id');
+				
+				$.post('/like', params, function(data) {
+				}, 'json').always(function()
+				{
+					console.log('here');
+					$('.like_button').replaceWith('<span class="like_button_disabled">'+(amnt+1)+'</span>');
+					$('.also_like').hide();
+				});
+		});
+		
+		$('.is_chef').click(function()
+		{
+			$('.edit_chef').slideToggle();
+		});
 		console.log('online');
 	});
 	</script>
@@ -24,7 +48,7 @@
 		<nav>
 			{{if .User}}
 			<ul>
-				{{if .Profile}}<li><a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a></li>{{end}}
+				{{if .Profile}}<li><strong><a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a></strong></li>{{end}}
 				
 				{{if .Profile}}
 				<li><a href="/edit">Update Profile</a></li>

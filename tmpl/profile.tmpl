@@ -3,13 +3,26 @@
 {{define "content"}}
 
 {{$c := .C}}
+<div class="wrapper search_box" style="display: none">
+	<div class="search_contain">
+		<form action="#" method="get">
+			<input type="text" name="search" class="search_input" placeholder="Search by Name or Restaurant..."/>
+			<input type="image" name="submit" src="img/magnifying.png" class="search_go" value="Go"/>
+		</form>
+		<ul>
+			<li><a href="/top10">Top 10 Statistics</a></li>
+			<li><a href="/all">All Users</a></li>
+		</ul>
+	</div>
+</div>
+
 <div class="wrapper content">
 	<div class="profile_info">
 		<div class="prof_contain">
 			{{if .Profile.ProfilePicture}}
 			<a href="/serve?blobKey={{.Profile.ProfilePicture}}"><img src="/serve?blobKey={{.Profile.ProfilePicture}}" style="height: 100px;"/></a>
 			{{else}}
-			<img src="jamie.png" style="height: 100px;"/>
+			<img src="img/3b_profilePic_0_empty.png" style="height: 100px;"/>
 			{{end}}
 			<ul>
 				<li><h2>{{.Profile.Name}}</h2></li>
@@ -28,7 +41,7 @@
 		{{if .AlreadyLiked}}
 			<span class="like_button_disabled">{{.Profile.Likes}}</span>
 		{{else}}
-			<a href="#" class="like_button">{{.Profile.Likes}}</a>
+			<a href="#" class="like_button" id="{{.ID}}">{{.Profile.Likes}}</a>
 		{{end}}
 		<div class="share_profile">
 			Share: FB, Twitter, G+
@@ -39,7 +52,7 @@
 			{{$name := UserName $c .FromID}}
 		<div class="comment">
 			{{.Comment}} <br />
-		- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {FORMATTED DATE}
+		- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {{FormatDate .Time}}
 		</div>
 		{{end}}
 	</div>
@@ -52,7 +65,7 @@
 			<textarea name="comment"></textarea>
 			{{if not .AlreadyLiked}}
 			<label for="like">Also like?</label>
-			<input type="checkbox" name="like" value="yes">
+			<input type="checkbox" name="like" value="yes" class="also_like">
 			{{end}}
 			<input type="submit" name="add_comment" value="Add Comment" />
 	
@@ -64,7 +77,7 @@
 			{{$name := UserName $c .ToID}}
 		<div class="comment">
 			{{.Comment}} <br />
-		- {{if $name}}<a href="/profile?id={{.ToID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {FORMATTED DATE}
+		- {{if $name}}<a href="/profile?id={{.ToID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {{FormatDate .Time}}
 		</div>
 		{{end}}
 	</div>

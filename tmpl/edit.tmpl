@@ -1,41 +1,65 @@
 {{define "title"}}Editing {{.LoginInfo.Profile.Name}}{{end}}
 {{define "content"}}
-<form action="{{.UploadURL}}" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="Id" value="{{.LoginInfo.User.ID}}" />
+<div class="wrapper search_box" style="display: none">
+	<div class="search_contain">
+		<form action="#" method="get">
+			<input type="text" name="search" class="search_input" placeholder="Search by Name or Restaurant..."/>
+			<input type="image" name="submit" src="img/magnifying.png" class="search_go" value="Go"/>
+		</form>
+		<ul>
+			<li><a href="/top10">Top 10 Statistics</a></li>
+			<li><a href="/all">All Users</a></li>
+		</ul>
+	</div>
+</div>
+<div class="wrapper content">
+	<div class="edit_contain">
+		<form action="{{.UploadURL}}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="Id" value="{{.LoginInfo.User.ID}}" />
 	
-	<label for="Name">Name:</label>
-	<input type="text" name="Name" value="{{.LoginInfo.Profile.Name}}" /><br />
+			<label for="Name">Name:</label>
+			<input type="text" name="Name" value="{{.LoginInfo.Profile.Name}}" /><br />
 	
-	<label for="Tagline">Tagline:</label>
-	<input type="text" name="Tagline" value="{{.LoginInfo.Profile.Tagline}}" /><br />
+			<label for="Tagline">Tagline:</label>
+			<input type="text" name="Tagline" value="{{.LoginInfo.Profile.Tagline}}" /><br />
 	
-	<label for="ProfilePicture">Profile Pic:</label>
-	<input type="file" name="ProfilePicture"><br />
+			<label for="ProfilePicture">Profile Pic:</label>
+			<img src="/serve?blobKey={{.LoginInfo.Profile.ProfilePicture}}" style="height: 100px;"/>
+			<input type="file" name="ProfilePicture"><br />
 	
-	<label for="IsChef">Is Chef?:</label>
-	{{if .LoginInfo.Profile.Chef}}
-	<input type="checkbox" name="IsChef" value="yes" checked/><br />
-	{{else}}
-	<input type="checkbox" name="IsChef" value="yes" /><br />
-	{{end}}
+			<label for="IsChef">Is Chef?:</label>
+			{{if .LoginInfo.Profile.Chef}}
+			<input type="checkbox" name="IsChef" value="yes" checked/><br />
+			{{else}}
+			<input type="checkbox" name="IsChef" value="yes" class="is_chef"/><br />
+			{{end}}
+			
+			{{if .LoginInfo.Profile.Chef}}
+			<div style="display:block" class="edit_chef">
+			{{else}}
+			<div style="display:none" class="edit_chef">
+			{{end}}
+				<label for="Title">Chef Title</label>
+				<select name="Title">
+					{{range .ValidTitles}}
+						<option value="{{.}}">{{.}}</option>
+					{{end}}
+				</select><br />
 	
-	{{if .LoginInfo.Profile.Chef}}
-	<select name="Title">
-		{{range .ValidTitles}}
-		<option value="{{.}}">{{.}}</option>
-		{{end}}
-	</select><br />
+				<label for="Restaurant">Restaurant</label>
+				{{$restaurantKeys := .RestaurantKeys}}
+				<select name="Restaurant">
+					{{range $i, $restaurant := .Restaurants}}
+					{{$restaurantKey := index $restaurantKeys $i}}
+						<option value="{{$restaurantKey.StringID}}" selected>{{.Name}}</option>
+						<option value="{{$restaurantKey.StringID}}">{{.Name}}</option>
+					{{end}}
+				</select>
+			</div>
 	
-	{{$restaurantKeys := .RestaurantKeys}}
-	<select name="Restaurant">
-		{{range $i, $restaurant := .Restaurants}}
-		{{$restaurantKey := index $restaurantKeys $i}}
-			<option value="{{$restaurantKey.StringID}}">{{.Name}}</option>
-		{{end}}
-	</select><br />
-	{{end}}
-	
-	<input type="submit" value="Edit" />
-</form>
+			<input type="submit" value="Update" />
+		</form>
+	</div>
+</div>
 {{end}}
 

@@ -41,12 +41,15 @@ func commentHandler(w http.ResponseWriter, r *http.Request) {
 		time.Now(),
 	}
 
-	toKey := datastore.NewKey(c, "Profile", id, 0, nil)
-	key := datastore.NewIncompleteKey(c, "Comment", toKey)
+	key := datastore.NewIncompleteKey(c, "Comment", commentBookKey(c))
 
 	_, err := datastore.Put(c, key, &comment)
 
 	check(err)
 
 	http.Redirect(w, r, "/profile?id="+id, http.StatusFound)
+}
+
+func commentBookKey(c appengine.Context) *datastore.Key {
+	return datastore.NewKey(c, "CommentBook", "default_commentbook", 0, nil)
 }
