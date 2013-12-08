@@ -39,7 +39,7 @@
 			{{$name := UserName $c .FromID}}
 		<div class="comment">
 			{{.Comment}} <br />
-		- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {FORMATTED DATE}
+		- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {{FormatDate .Time}}
 		</div>
 		{{end}}
 	</div>
@@ -64,7 +64,7 @@
 			{{$name := UserName $c .ToID}}
 		<div class="comment">
 			{{.Comment}} <br />
-		- {{if $name}}<a href="/profile?id={{.ToID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {FORMATTED DATE}
+		- {{if $name}}<a href="/profile?id={{.ToID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {{FormatDate .Time}}
 		</div>
 		{{end}}
 	</div>
