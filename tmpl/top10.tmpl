@@ -20,10 +20,20 @@ Most Liked Chefs
 	{{range $i, $profile := .Profiles}}
 		{{$profileKey := index $profileKeys $i}}
 		<li>
-			{{.Name}} -- Has {{.Likes}} endorsement{{if neq .Likes 1}}s{{end}}-- <a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a>
+			{{.Name}} -- Has {{.Likes}} endorsement{{if neq .Likes 1}}s{{end}} -- <a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a>
 		</li>
 	{{end}}
 	</ul>
+
+Most commented on Chefs
+<ul>
+{{range $i, $profile := .Profiles}}
+	{{$profileKey := index $profileKeys $i}}
+	<li>
+		{{.Name}} -- Has {{.Comments}} comment{{if neq .Comments 1}}s{{end}} -- <a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a>
+	</li>
+{{end}}
+</ul>
 
 {{end}}
 <div class="wrapper content">
