@@ -65,21 +65,6 @@
 		</div>
 		{{end}}
 	</div>
-		{{if .LoginInfo.User}}
-		<form action="/comment" method="post">
-	
-			<input type="hidden" name="id" value="{{.ID}}" />
-	
-			<label for="comment">Comment</label>
-			<textarea name="comment"></textarea>
-			{{if not .AlreadyLiked}}
-			<label for="like">Also like?</label>
-			<input type="checkbox" name="like" value="yes" class="also_like">
-			{{end}}
-			<input type="submit" name="add_comment" value="Add Comment" />
-	
-		</form>
-		{{end}}
 	{{else}}
 	<div class="comment_list">
 		{{range .Comments}}
@@ -94,6 +79,23 @@
 		</div>
 		{{end}}
 	</div>
+	{{end}}
+	
+	{{if .LoginInfo.User}}
+	<div class="add_comment">
+		<button type="button" class="review_button">Write Review</button>
+		<form action="/comment" method="post">
+			<input type="hidden" name="id" value="{{.ID}}" />
+			<div class="review_text" style="display:none">
+				<textarea name="comment" style="width: 80%; height: 40px;"></textarea>
+				{{if not .AlreadyLiked}}
+				<label for="like" class="also_like_label">Also like?</label>
+				<input type="checkbox" name="like" value="yes" class="also_like">
+				{{end}}
+				<input type="submit" name="add_comment" value="Add Comment" />
+			</div>
+		</form>
+	</div>	
 	{{end}}
 </div>
 {{end}}

@@ -1,10 +1,10 @@
 package wmc
 
 import (
+	"errors"
 	"net/http"
 	"strings"
-	"errors"
-	
+
 	"appengine"
 	"appengine/blobstore"
 	"appengine/datastore"
@@ -79,7 +79,7 @@ func editRestaurantGetHandler(w http.ResponseWriter, r *http.Request, loginInfo 
 	c := appengine.NewContext(r)
 	uploadURL, err := blobstore.UploadURL(c, "/editRestaurant", nil)
 	check(err)
-	
+
 	rest, rid := targetRestaurant(r)
 
 	templates["editRestaurant"].ExecuteTemplate(w, "root", struct {
@@ -98,18 +98,18 @@ func editRestaurantGetHandler(w http.ResponseWriter, r *http.Request, loginInfo 
 // Handles creation and updating of restaurants
 func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo) {
 	c := appengine.NewContext(r)
-		
+
 	blobs, values, err := blobstore.ParseUpload(r)
 	check(err)
 	rid := values.Get("rid")
-	
+
 	if rid == "" {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-	
+
 	rest := retrieveRestaurant(c, rid)
-	
+
 	if rest == nil {
 		rest = &Restaurant{}
 	}
@@ -142,7 +142,7 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 func targetRestaurant(r *http.Request) (*Restaurant, string) {
 	c := appengine.NewContext(r)
 	rid := r.FormValue("rid")
-	
+
 	if rid == "" {
 		return nil, ""
 	}

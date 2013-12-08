@@ -25,6 +25,12 @@
 	<input type="text" name="Address" value={{.Restaurant.Address}} /><br />
 	
 	<label for="RestaurantLogo">Restaurant Logo:</label>
+	{{if .Restaurant.RestaurantLogo}}
+		<img src="/serve?blobKey={{.Restaurant.RestaurantLogo}}" style="height: 100px;"/>
+	{{else}}
+		<img src="img/jamie.png" style="height: 100px;"/>
+	{{end}}
+	
 	<input type="file" name="RestaurantLogo"><br />
 	
 	<input type="submit" value="Edit Restaurant">

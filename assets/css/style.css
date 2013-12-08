@@ -206,28 +206,18 @@ header {
 
 .review_button{
     display: block;
-    margin-left: auto;
-    margin-right: auto;
 	
 }
 .review_text{
 	background-color: #f1dcc6;
-	border: 1px solid #333;
-	border-radius: 3px;
 	margin-bottom: 10px;
 	padding: 10px;
+	margin: 10px;
 
-}
-.review_text button{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .review_text textarea{
     display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .likes_shares .share_profile {
@@ -237,7 +227,7 @@ header {
 
 .appImages{
 	float:right;
-	margin-right:10px
+	margin-right:0px
 }
 
 .appImages img{
@@ -245,4 +235,8 @@ header {
 	margin-left: 5px;
 	margin-right: 5px;
 	margin-top:5px;
+}
+
+.add_comment {
+	text-align: left;
 }
