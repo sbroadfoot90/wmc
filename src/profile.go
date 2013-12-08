@@ -102,13 +102,23 @@ func editGetHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo
 	uploadURL, err := blobstore.UploadURL(c, "/edit", nil)
 	check(err)
 
+	restaurants := make([]Restaurant, 0, 20)
+
+	q := datastore.NewQuery("Restaurant").Limit(20)
+
+	keys, err := q.GetAll(c, &restaurants)
+
 	templates["edit"].ExecuteTemplate(w, "root", struct {
-		LoginInfo   *LoginInfo
-		ValidTitles []string
-		UploadURL   string
+		LoginInfo      *LoginInfo
+		ValidTitles    []string
+		Restaurants    []Restaurant
+		RestaurantKeys []*datastore.Key
+		UploadURL      string
 	}{
 		loginInfo,
 		Titles,
+		restaurants,
+		keys,
 		uploadURL.String(),
 	})
 }

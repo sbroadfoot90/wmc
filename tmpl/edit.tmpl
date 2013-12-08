@@ -25,6 +25,14 @@
 		<option value="{{.}}">{{.}}</option>
 		{{end}}
 	</select><br />
+	
+	{{$restaurantKeys := .RestaurantKeys}}
+	<select name="Restaurant">
+		{{range $i, $restaurant := .Restaurants}}
+		{{$restaurantKey := index $restaurantKeys $i}}
+			<option value="{{$restaurantKey.StringID}}">{{.Name}}</option>
+		{{end}}
+	</select><br />
 	{{end}}
 	
 	<input type="submit" value="Edit" />
