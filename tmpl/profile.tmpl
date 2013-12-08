@@ -1,10 +1,10 @@
 {{define "title"}}{{.Profile.Name}}{{end}}
 {{define "content"}}
 {{$c := .C}}
-	{{if .Profile.Chef}}
-	<p>CHEF IMAGE</p>
-	{{end}}
 
+	{{if .Profile.ProfilePicture}}
+	<p><img src="/serve?blobKey={{.Profile.ProfilePicture}}" height="100px" /></p>
+	{{end}}
 	Username: {{.Profile.Name}} <br />
 	{{if .Profile.Chef}}
 		Title: {{.Profile.Title}}<br />
