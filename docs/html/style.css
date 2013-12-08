@@ -164,7 +164,8 @@ header {
 
 .likes_shares .share_profile {
 	float: right;
-}
+	margin-top: 10px;
+	}
 
 .comment_list {
 	padding: 5px;
@@ -210,12 +211,14 @@ header {
 
 .appImages{
 	float:right;
-	font-size:13px;
-	margin-right:50px
+	margin-right:10px
+	
 
 }
 
 .appImages img{
+	vertical-align:middle;
 	margin-left: 5px;
-	margin-right: 5px
+	margin-right: 5px;
+	margin-top:5px;
 }

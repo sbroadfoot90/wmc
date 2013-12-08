@@ -82,19 +82,3 @@ func targetUser(r *http.Request) (*Profile, string) {
 
 	return p, id
 }
-
-func userName(c appengine.Context, id string) string {
-	p := retrieveProfile(c, id)
-	if p == nil {
-		return ""
-	}
-	return p.Name
-}
-
-func restaurantName(c appengine.Context, rid string) string {
-	rest := retrieveRestaurant(c, rid)
-	if rest == nil {
-		return ""
-	}
-	return rest.Name
-}

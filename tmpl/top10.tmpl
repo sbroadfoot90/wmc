@@ -6,7 +6,7 @@
 	{{range $i, $profile := .Profiles}}
 		{{$profileKey := index $profileKeys $i}}
 		<li>
-			{{.Name}} -- <a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a>
+			{{.Name}} -- Has {{.Likes}} endorsement{{if neq .Likes 1}}s{{end}}-- <a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a>
 		</li>
 	{{end}}
 	</ul>
