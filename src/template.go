@@ -23,6 +23,8 @@ func importTemplates(templatePath string) {
 		"UserName":       userName,
 		"RestaurantName": restaurantName,
 		"FormatDate":formatDate,
+		"eq":             equals,
+		"neq":            notequals,
 	}
 	for _, templateName := range templateNames {
 		root := filepath.Join(templatePath, "root.tmpl")
@@ -69,4 +71,12 @@ func formatDate(t time.Time) string {
 	}
 	
 	return strconv.Itoa(v) + " " + typ + " ago"
+}
+
+func equals(a, b int) bool {
+	return a == b
+}
+
+func notequals(a, b int) bool {
+	return a != b
 }
