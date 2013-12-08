@@ -14,11 +14,12 @@
 </div>
 
 <div class="wrapper content">
-{{$profileKeys := .ProfileKeys}}
+{{$profileKeysLikes := .ProfileKeysLikes}}
+{{$profileKeysComments := .ProfileKeysComments}}
 Most Liked Chefs
 	<ul>
-	{{range $i, $profile := .Profiles}}
-		{{$profileKey := index $profileKeys $i}}
+	{{range $i, $profile := .ProfilesLikes}}
+		{{$profileKey := index $profileKeysLikes $i}}
 		<li>
 			{{.Name}} -- Has {{.Likes}} endorsement{{if neq .Likes 1}}s{{end}} -- <a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a>
 		</li>
@@ -27,8 +28,8 @@ Most Liked Chefs
 
 Most commented on Chefs
 <ul>
-{{range $i, $profile := .Profiles}}
-	{{$profileKey := index $profileKeys $i}}
+{{range $i, $profile := .ProfilesComments}}
+	{{$profileKey := index $profileKeysComments $i}}
 	<li>
 		{{.Name}} -- Has {{.Comments}} comment{{if neq .Comments 1}}s{{end}} -- <a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a>
 	</li>
@@ -36,4 +37,4 @@ Most commented on Chefs
 </ul>
 
 {{end}}
-<div class="wrapper content">
+</div>

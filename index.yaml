@@ -62,5 +62,11 @@ indexes:
 - kind: Profile
   properties:
   - name: Chef
+  - name: Comments
+    direction: desc
+
+- kind: Profile
+  properties:
+  - name: Chef
   - name: Likes
     direction: desc

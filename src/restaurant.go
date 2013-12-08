@@ -34,7 +34,7 @@ func restaurantHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	q := datastore.NewQuery("Profile").Filter("CurrentRestaurantID=", rid)
+	q := datastore.NewQuery("Profile").Filter("CurrentRestaurantID=", rid).Filter("Chef=", true)
 	profiles := make([]*Profile, 0, 100)
 
 	keys, err := q.GetAll(c, &profiles)
