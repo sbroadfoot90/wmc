@@ -5,6 +5,7 @@ import (
 	"appengine/user"
 	"encoding/json"
 	"net/http"
+	"regexp"
 )
 
 func outputToJsonOrTemplate(w http.ResponseWriter, r *http.Request, data interface{}, templateName string) {
@@ -81,4 +82,9 @@ func targetUser(r *http.Request) (*Profile, string) {
 	p := retrieveProfile(c, id)
 
 	return p, id
+}
+
+func sanitiseRID(rid string) string {
+	reg := regexp.MustCompile("([^A-Za-z0-9-]+)")
+	return string(reg.ReplaceAll([]byte(rid), []byte{}))
 }
