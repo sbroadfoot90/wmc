@@ -18,7 +18,12 @@ nav {
 	text-align: right;
 }
 
-nav a {
+a {
+	color: #f39e14;
+	
+}
+
+a:hover {
 	color: #c36219;
 	
 }
@@ -68,12 +73,22 @@ header {
 	border: 1px solid #777;
 	border-radius: 5px;
 	background: #fefefe url('../img/submit_bg.png') right center repeat-y !important;
+	margin-bottom: 10px;
 }
 
 .search_box .search_go {
 	margin-left: -38px;
 	margin-bottom: -13px;
 	border-radius: 5px;
+}
+
+.search_box ul {
+	display: inline;
+	margin-left: -40px;
+}
+
+.search_box ul li {
+	display: inline;
 }
 
 .content {
