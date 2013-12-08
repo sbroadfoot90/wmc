@@ -54,7 +54,7 @@ func newRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	} else {
 		if r.Method == "GET" {
-			editRestaurantGetHandler(w, loginInfo, nil, "")
+			editRestaurantGetHandler(w, r, loginInfo, nil, "")
 		}
 
 	}
