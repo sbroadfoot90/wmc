@@ -1,0 +1,13 @@
+{{define "title"}}Top 10 Chefs {{end}}
+{{define "content"}}
+	
+{{$profileKeys := .ProfileKeys}}
+	<ul>
+	{{range $i, $profile := .Profiles}}
+		{{$profileKey := index $profileKeys $i}}
+		<li>
+			{{.Name}} -- <a href="/profile?id={{$profileKey.StringID}}">{{.Name}}</a>
+		</li>
+	{{end}}
+	</ul>
+{{end}}
