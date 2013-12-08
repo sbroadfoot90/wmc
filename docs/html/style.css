@@ -165,7 +165,7 @@ header {
 .likes_shares .share_profile {
 	float: right;
 	margin-top: 10px;
-	}
+}
 
 .comment_list {
 	padding: 5px;
@@ -186,7 +186,7 @@ header {
 .review_button{
     display: block;
     margin-left: auto;
-    margin-right: auto }
+    margin-right: auto;
 	
 }
 .review_text{

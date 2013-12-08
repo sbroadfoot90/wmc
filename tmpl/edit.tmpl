@@ -51,7 +51,6 @@
 				<select name="Restaurant">
 					{{range $i, $restaurant := .Restaurants}}
 					{{$restaurantKey := index $restaurantKeys $i}}
-						<option value="{{$restaurantKey.StringID}}" selected>{{.Name}}</option>
 						<option value="{{$restaurantKey.StringID}}">{{.Name}}</option>
 					{{end}}
 				</select>
