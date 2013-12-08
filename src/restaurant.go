@@ -100,7 +100,6 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 	blobs, values, err := blobstore.ParseUpload(r)
 	check(err)
 	rid := values.Get("rid")
-	c.Debugf("initial rid: %s", rid)
 
 	var rest *Restaurant
 
@@ -111,8 +110,10 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 		}
 		rid = sanitiseRID(name)
 
-		for rest = retrieveRestaurant(c, rid); rest != nil; {
+		rest = retrieveRestaurant(c, rid)
+		for rest != nil {
 			rid = rid + "x"
+			rest = retrieveRestaurant(c, rid)
 		}
 		rest = &Restaurant{}
 	} else {
@@ -121,8 +122,6 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	}
-
-	c.Debugf("final rid: %s", rid)
 
 	rest.Name = values.Get("Name")
 	rest.Address = values.Get("Address")
@@ -165,6 +164,7 @@ func retrieveRestaurant(c appengine.Context, rid string) *Restaurant {
 	if rid == "" {
 		return nil
 	}
+
 	key := datastore.NewKey(c, "Restaurant", rid, 0, nil)
 	var rest Restaurant
 
