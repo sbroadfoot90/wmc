@@ -12,13 +12,14 @@ import (
 )
 
 type Profile struct {
-	Name           string
-	Tagline        string
-	ProfilePicture appengine.BlobKey
-	Chef           bool
-	Title          string
-	Likes          int
-	RestaurantIds  []string
+	Name                string
+	Tagline             string
+	ProfilePicture      appengine.BlobKey
+	Chef                bool
+	Title               string
+	Likes               int
+	CurrentRestaurantID string
+	RestaurantIds       []string
 }
 
 // TODO populate from file
@@ -143,10 +144,16 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	isChef := values.Get("IsChef") == "yes"
 	p.Chef = isChef
 	if isChef {
+		// validate chef title
 		for _, title := range Titles {
 			if title == values.Get("Title") {
 				p.Title = title
 			}
+		}
+
+		rid := values.Get("Restaurant")
+		if rid != "" && retrieveRestaurant(c, rid) != nil {
+			p.CurrentRestaurantID = rid
 		}
 	}
 	var oldProfilePicture appengine.BlobKey
