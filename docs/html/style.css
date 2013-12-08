@@ -1,5 +1,8 @@
 body {
-	background: url('fabric.png');
+	background: url('backgroundgrad.png');
+background-size: auto 100%;
+background-repeat:repeat-x;
+	
 	border-top: 3px solid #c36219;
 	font: 16px Helvetica;
 	padding: 0;
@@ -48,11 +51,12 @@ header {
 
 .search_box {
 	text-align: center;
-	
 	background-color: #f7f7f7;
 	border-bottom: 1px solid #e6e6e6;
-
+	
 	margin-bottom: 10px;
+	border-radius: 5px;
+	border: 1px solid #777;
 
 }
 
@@ -79,8 +83,10 @@ header {
 .content {
 	border: 1px solid #777;
 	border-radius: 3px;
-	margin-bottom: 10px;
+	margin-bottom: 50px;
 	background-color: #dec8af;
+	background-image:url('mainblockgrad.png');
+	
 }
 
 .profile_info {
@@ -158,6 +164,7 @@ header {
 
 .likes_shares .share_profile {
 	float: right;
+	margin-top: 10px;
 }
 
 .comment_list {
@@ -165,7 +172,7 @@ header {
 }
 
 .comment_list .comment {
-	background-color: #f1dcc6;
+	background-color: #F0F0F0;
 	border: 1px solid #333;
 	border-radius: 3px;
 	margin-bottom: 10px;
@@ -174,4 +181,44 @@ header {
 
 .comment_list .comment:last-of-type {
 	margin-bottom: 0;
+}
+
+.review_button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	
+}
+.review_text{
+	background-color: #f1dcc6;
+	border: 1px solid #333;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	padding: 10px;
+
+}
+.review_text button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.review_text textarea{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.appImages{
+	float:right;
+	margin-right:10px
+	
+
+}
+
+.appImages img{
+	vertical-align:middle;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top:5px;
 }
