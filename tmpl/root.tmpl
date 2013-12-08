@@ -47,16 +47,16 @@
 			
 		});
 		
-		function removeEmptyFiles(){
-		    $('input[type="file"]').each(function(){
-		        if($(this).val() == ""){
-		            $(this).remove()
-		        }
-		    });
-		}
-		
 		console.log('online');
 	});
+	
+	function removeEmptyFiles(){
+	    $('input[type="file"]').each(function(){
+	        if($(this).val() == ""){
+	            $(this).remove()
+	        }
+	    });
+	}
 	</script>
 </head>
 

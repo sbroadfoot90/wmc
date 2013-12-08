@@ -142,7 +142,8 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 	}
 
 	p.Name = values.Get("Name")
-	if tagline := values.Get("Tagline"); len(tagline) <= 40 {
+	maxTagLength := 200
+	if tagline := values.Get("Tagline"); len(tagline) <= maxTagLength {
 		p.Tagline = tagline
 	}
 
