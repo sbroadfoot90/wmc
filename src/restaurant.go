@@ -99,7 +99,7 @@ func editRestaurantGetHandler(w http.ResponseWriter, r *http.Request, loginInfo 
 		loginInfo,
 		rest,
 		rid,
-		uploadURL,
+		uploadURL.String(),
 	})
 }
 
