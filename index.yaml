@@ -39,6 +39,13 @@ indexes:
   - name: Time
     direction: desc
 
+- kind: Comment
+  ancestor: yes
+  properties:
+  - name: ToID
+  - name: Time
+    direction: desc
+
 - kind: Comments
   ancestor: yes
   properties:
