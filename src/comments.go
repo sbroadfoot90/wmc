@@ -3,9 +3,9 @@ package wmc
 import (
 	"appengine"
 	"appengine/datastore"
+	"errors"
 	"net/http"
 	"time"
-	"errors"
 )
 
 type Comment struct {
@@ -42,22 +42,16 @@ func commentHandler(w http.ResponseWriter, r *http.Request) {
 		time.Now(),
 	}
 
-	key := datastore.NewIncompleteKey(c, "Comment", commentBookKey(c))
+	addComment(c, &comment)
 
-	 _, err := datastore.Put(c, key, &comment)
-	 
-	 check(err)
-
-	addComment(c, comment.Comment, loginInfo.User.ID, id)
-	
 	http.Redirect(w, r, "/profile?id="+id, http.StatusFound)
 }
 
-func addComment(c appengine.Context, comment, fromID, toID string, ) {
+func addComment(c appengine.Context, comment *Comment) {
 
 	err := datastore.RunInTransaction(c, func(c appengine.Context) error {
-		
-		p := retrieveProfile(c, toID)
+
+		p := retrieveProfile(c, comment.ToID)
 
 		if p == nil || !p.Chef {
 			panic(errors.New("No target profile"))
@@ -65,19 +59,14 @@ func addComment(c appengine.Context, comment, fromID, toID string, ) {
 
 		key := datastore.NewIncompleteKey(c, "Comment", commentBookKey(c))
 
-		_, err := datastore.Put(c, key, &Comment{
-			comment,
-			fromID,
-			toID,
-			time.Now(),
-		})
+		_, err := datastore.Put(c, key, comment)
 
 		// TODO Shard counter
 		p.Comments++
 
 		check(err)
 
-		updateProfile(c, toID, p)
+		updateProfile(c, comment.ToID, p)
 
 		return nil
 	}, &datastore.TransactionOptions{XG: true})
