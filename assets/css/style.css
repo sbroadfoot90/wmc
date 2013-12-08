@@ -163,6 +163,16 @@ header {
 	border-radius: 3px;
 }
 
+.likes_shares .like_button_disabled {
+	display: inline-block;
+	padding: 10px;
+	padding-left: 70px;
+	background-color: #aaa;
+	font-size: 180%;
+	color: #fff;
+	border-radius: 3px;
+}
+
 .likes_shares .share_profile {
 	float: right;
 }

@@ -139,12 +139,20 @@ header {
 	display: inline-block;
 	padding: 10px;
 	padding-left: 70px;
-	background: url('hat.png') no-repeat;
+	background: url('../img/hat.png') no-repeat;
 	background-position: 10px center;
 	background-color: #f39e14;
 	font-size: 180%;
 	color: #fff;
 	text-decoration: none;
+	border-radius: 3px;
+}
+
+.like_button_disabled {
+	padding: 10px;
+	font-size: 180%;
+	background-color: #eee;
+	color: #fff;
 	border-radius: 3px;
 }
 
