@@ -4,7 +4,6 @@ Day 2
 Back-end
 ----
 Restaurant
-* Restaurant URL
 * Google Maps Integration
 * Co-ords after Google Maps figures out location
 
