@@ -20,6 +20,7 @@ type Profile struct {
 	Likes               int
 	CurrentRestaurantID string
 	PastRestaurantIds   []string
+	Comments			int
 }
 
 // TODO populate from file

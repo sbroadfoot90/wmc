@@ -2,6 +2,7 @@
 {{define "content"}}
 	
 {{$profileKeys := .ProfileKeys}}
+Most Liked Chefs
 	<ul>
 	{{range $i, $profile := .Profiles}}
 		{{$profileKey := index $profileKeys $i}}
@@ -10,4 +11,8 @@
 		</li>
 	{{end}}
 	</ul>
+	
+	
+	
+	
 {{end}}

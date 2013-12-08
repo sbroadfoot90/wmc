@@ -5,6 +5,7 @@ import (
 	"appengine/datastore"
 	"net/http"
 	"time"
+	"errors"
 )
 
 type Comment struct {
@@ -44,9 +45,49 @@ func commentHandler(w http.ResponseWriter, r *http.Request) {
 	toKey := datastore.NewKey(c, "Profile", id, 0, nil)
 	key := datastore.NewIncompleteKey(c, "Comment", toKey)
 
-	_, err := datastore.Put(c, key, &comment)
+	 _, err := datastore.Put(c, key, &comment)
+	 
+	 check(err)
+
+	addComment(c, comment.Comment, loginInfo.User.ID, id)
+	
+	http.Redirect(w, r, "/profile?id="+id, http.StatusFound)
+}
+
+
+
+func addComment(c appengine.Context, comment, fromID, toID string, ) {
+
+	err := datastore.RunInTransaction(c, func(c appengine.Context) error {
+		
+		p := retrieveProfile(c, toID)
+
+		if p == nil || !p.Chef {
+			panic(errors.New("No target profile"))
+		}
+
+		key := datastore.NewIncompleteKey(c, "Comment", commentBookKey(c))
+
+		_, err := datastore.Put(c, key, &Comment{
+			comment,
+			fromID,
+			toID,
+			time.Now(),
+		})
+
+		// TODO Shard counter
+		p.Comments++
+
+		check(err)
+
+		updateProfile(c, toID, p)
+
+		return nil
+	}, &datastore.TransactionOptions{XG: true})
 
 	check(err)
+}
 
-	http.Redirect(w, r, "/profile?id="+id, http.StatusFound)
+func commentBookKey(c appengine.Context) *datastore.Key {
+	return datastore.NewKey(c, "commentBook", "default_commentbook", 0, nil)
 }

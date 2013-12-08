@@ -15,8 +15,8 @@ Restaurant
 * Co-ords after Google Maps figures out location
 
 Top 10 Page
-* Most liked
-* Most commented
+* Most liked -- done 
+* Most commented 
 * Most likes given
 * Most comments given
 * Restaurant with most employees
