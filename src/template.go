@@ -21,6 +21,7 @@ func importTemplates(templatePath string) {
 		"RestaurantName": restaurantName,
 		"eq":             equals,
 		"neq":            notequals,
+		"seq":             sequals,
 	}
 	for _, templateName := range templateNames {
 		root := filepath.Join(templatePath, "root.tmpl")
@@ -29,6 +30,10 @@ func importTemplates(templatePath string) {
 }
 
 func equals(a, b int) bool {
+	return a == b
+}
+
+func sequals(a, b string) bool {
 	return a == b
 }
 

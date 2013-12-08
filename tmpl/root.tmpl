@@ -21,7 +21,7 @@
 		$('.like_button').click(function()
 		{
 				var params = {};
-				var amnt = $('.like_button').val();
+				var amnt = $('.like_button').text();
 				params.id = $('.like_button').attr('id');
 				
 				$.post('/like', params, function(data) {
@@ -44,7 +44,7 @@
 		<nav>
 			{{if .User}}
 			<ul>
-				{{if .Profile}}<li><a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a></li>{{end}}
+				{{if .Profile}}<li><strong><a href="profile?id={{.User.ID}}">{{.Profile.Name}}</a></strong></li>{{end}}
 				
 				{{if .Profile}}
 				<li><a href="/edit">Update Profile</a></li>

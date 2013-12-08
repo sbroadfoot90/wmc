@@ -198,3 +198,11 @@ header {
 .comment_list .comment:last-of-type {
 	margin-bottom: 0;
 }
+
+.edit_contain {
+	padding: 10px;
+}
+
+.edit_contain label {
+	width: 300px;
+}

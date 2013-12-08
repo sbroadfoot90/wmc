@@ -1,5 +1,17 @@
 {{define "title"}}Editing Restaurant{{end}}
 {{define "content"}}
+<div class="wrapper search_box" style="display: none">
+	<div class="search_contain">
+		<form action="#" method="get">
+			<input type="text" name="search" class="search_input" placeholder="Search by Name or Restaurant..."/>
+			<input type="image" name="submit" src="img/magnifying.png" class="search_go" value="Go"/>
+		</form>
+		<ul>
+			<li><a href="/top10">Top 10 Statistics</a></li>
+			<li><a href="/all">All Users</a></li>
+		</ul>
+	</div>
+</div>
 
 {{if .Restaurant}}
 <form action="/editRestaurant" method="post">
