@@ -45,12 +45,15 @@ header {
 	margin-bottom: 10px;
 }
 
+
 .search_box {
 	text-align: center;
-	border: 1px solid #777;
-	border-radius: 3px;
+	
+	background-color: #f7f7f7;
+	border-bottom: 1px solid #e6e6e6;
+
 	margin-bottom: 10px;
-	background-color: #dec8af;
+
 }
 
 .search_box .search_contain {
@@ -142,6 +145,7 @@ header {
 	font-size: 180%;
 	color: #fff;
 	text-decoration: none;
+	border-radius: 3px;
 }
 
 .likes_shares .share_profile {
