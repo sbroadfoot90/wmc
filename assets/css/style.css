@@ -12,6 +12,10 @@ body {
 	margin: 0 auto;
 }
 
+header img:hover {
+	cursor: pointer;
+}
+
 nav {
 	padding: 8px;
 	/*background-color: #f00;*/
@@ -96,6 +100,7 @@ header {
 	border-radius: 3px;
 	margin-bottom: 10px;
 	background-color: #dec8af;
+	background: url('../img/inner_bg.png');
 }
 
 .profile_info {
@@ -154,7 +159,7 @@ header {
 	display: inline-block;
 	padding: 10px;
 	padding-left: 70px;
-	background: url('hat.png') no-repeat;
+	background: url('../img/hat.png') no-repeat;
 	background-position: 10px center;
 	background-color: #f39e14;
 	font-size: 180%;
@@ -167,14 +172,12 @@ header {
 	display: inline-block;
 	padding: 10px;
 	padding-left: 70px;
+	background: url('../img/hat.png') no-repeat;
+	background-position: 10px center;
 	background-color: #aaa;
 	font-size: 180%;
 	color: #fff;
 	border-radius: 3px;
-}
-
-.likes_shares .share_profile {
-	float: right;
 }
 
 .comment_list {
@@ -182,7 +185,7 @@ header {
 }
 
 .comment_list .comment {
-	background-color: #f1dcc6;
+	background-color: #f0f0f0;
 	border: 1px solid #333;
 	border-radius: 3px;
 	margin-bottom: 10px;
@@ -191,4 +194,55 @@ header {
 
 .comment_list .comment:last-of-type {
 	margin-bottom: 0;
+}
+
+.edit_contain {
+	padding: 10px;
+}
+
+.edit_contain label {
+	width: 300px;
+}
+
+.review_button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	
+}
+.review_text{
+	background-color: #f1dcc6;
+	border: 1px solid #333;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	padding: 10px;
+
+}
+.review_text button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.review_text textarea{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.likes_shares .share_profile {
+	float: right;
+	margin-top: 10px;
+}
+
+.appImages{
+	float:right;
+	margin-right:10px
+}
+
+.appImages img{
+	vertical-align:middle;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top:5px;
 }

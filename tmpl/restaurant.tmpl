@@ -1,9 +1,33 @@
 {{define "title"}}Restaurant{{end}}
 {{define "content"}}
+<div class="wrapper search_box" style="display: none">
+	<div class="search_contain">
+		<form action="#" method="get">
+			<input type="text" name="search" class="search_input" placeholder="Search by Name or Restaurant..."/>
+			<input type="image" name="submit" src="img/magnifying.png" class="search_go" value="Go"/>
+		</form>
+		<ul>
+			<li><a href="/top10">Top 10 Statistics</a></li>
+			<li><a href="/all">All Users</a></li>
+		</ul>
+	</div>
+</div>
+<div class="wrapper content">
+	<div class="profile_info">
+		<div class="prof_contain">
+			<img src="img/jamie.png" style="height: 100px;"/>
 
-Restaurant Name: {{.Restaurant.Name}}<br />
-Address: {{.Restaurant.Address}}<br />
-
-<br />
-
+			<ul>
+				<li><h2>{{.Restaurant.Name}}</h2></li>
+				<li>{{.Restaurant.Address}}</li>
+				<li><a href="/editRestaurant?rid={{.RID}}">Edit Restaurant</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="comment_list">
+		<div class="comment">
+			Nobody works at <strong>{{.Restaurant.Name}}</strong> :(
+		</div>
+	</div>
+</div>
 {{end}}

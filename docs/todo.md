@@ -3,11 +3,7 @@ Day 2
 
 Back-end
 ----
-Foodies
-* Formatted Dates
-
 Restaurant
-* Add edit link to page
 * Restaurant logo
 * Restaurant URL
 * List current employees (& past employees?)

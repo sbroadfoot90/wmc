@@ -13,10 +13,20 @@
 	$(function()
 	{
 	
-		$('.review_button button').click(function()
+		$('.review_button').click(function()
 		{
-		
+			$('.review_text').slideToggle("fast");
+			$('.review_button').hide();
+			$('.review_text textarea').focus()
+			
 		});	
+		
+		$('.review_text button').click(function()
+		{
+			var input = $('review_text textarea').text();
+			
+		});
+		
 		
 	});
 	</script>
@@ -24,7 +34,6 @@
 	<link rel="stylesheet" href="style.css"/>
       
 </head>
-
 <body lang="en">
     <header class="wrapper branding">
 		<nav>
@@ -41,6 +50,7 @@
 	<div class="wrapper search_box">
 		<div class="search_contain">
 			<form action="#" method="get">
+			<br>
 				<input type="text" name="search" class="search_input" placeholder="Search by Name or Restaurant..."/>
 				<input type="image" name="submit" src="magnifying.png" class="search_go" value="Go"/>
 			</form>
@@ -62,8 +72,13 @@
 		</div>
 		<div class="likes_shares">
 			<a href="" class="like_button">19</a>
-			<div class="share_profile">
-				Share: FB, Twitter, G+
+			<div class ="appImages">
+					<a href="#"><img src="facebook.png" alt="facebook"></a>
+					<a href="#"><img src="twitter.png" alt="facebook"></a>	
+					<a href="#"><img src="google+.png" alt="facebook"></a>	
+				</div>	
+			<div class="share_profile" style="vertical-align:middle">
+				Share:
 			</div>
 		</div>
 		<div class="comment_list">
@@ -86,7 +101,16 @@
 			Comment
 			</div>
 		</div>
+		<button type="button"  class="review_button">Write Review</button>
+			<div class="review_text" style="display:none">
+				<br>
+				<textarea rows="4" cols="100">
+				</textarea>
+				<br>
+				<button type="button">Post Review</button>
+			</div>
 	</div>
+	
 </body>
         
 </html>

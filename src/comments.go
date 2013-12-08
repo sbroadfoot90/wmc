@@ -42,8 +42,7 @@ func commentHandler(w http.ResponseWriter, r *http.Request) {
 		time.Now(),
 	}
 
-	toKey := datastore.NewKey(c, "Profile", id, 0, nil)
-	key := datastore.NewIncompleteKey(c, "Comment", toKey)
+	key := datastore.NewIncompleteKey(c, "Comment", commentBookKey(c))
 
 	 _, err := datastore.Put(c, key, &comment)
 	 
@@ -53,8 +52,6 @@ func commentHandler(w http.ResponseWriter, r *http.Request) {
 	
 	http.Redirect(w, r, "/profile?id="+id, http.StatusFound)
 }
-
-
 
 func addComment(c appengine.Context, comment, fromID, toID string, ) {
 
