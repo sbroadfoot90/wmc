@@ -67,8 +67,14 @@
 
 
 	{{if .Profile.Chef}}
+		Current Restaurant:
+		{{if .Profile.CurrentRestaurantID}}
+		<a href="/restaurant?rid={{.Profile.CurrentRestaurantID}}">{{RestaurantName $c .Profile.CurrentRestaurantID}}</a></br>
+		{{end}}
+		
+		Past Restaurants:
 		<ul>
-			{{range .Profile.RestaurantIds}}
+			{{range .Profile.PastRestaurantIds}}
 			<li>{{.}}</li>
 			{{end}}
 		</ul>
@@ -91,7 +97,7 @@
 	
 		<ul>
 		{{range .Comments}}
-			{{$name := Username $c .FromID}}
+			{{$name := UserName $c .FromID}}
 			<li>
 				{{.Comment}} -- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}
 			</li>
