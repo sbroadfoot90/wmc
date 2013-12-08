@@ -45,7 +45,15 @@
 			$('.review_button').hide();
 			$('.review_text textarea').focus()
 			
-		});	
+		});
+		
+		function removeEmptyFiles(){
+		    $('input[type="file"]').each(function(){
+		        if($(this).val() == ""){
+		            $(this).remove()
+		        }
+		    });
+		}
 		
 		console.log('online');
 	});
