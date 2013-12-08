@@ -19,9 +19,19 @@ func importTemplates(templatePath string) {
 	fm := template.FuncMap{
 		"UserName":       userName,
 		"RestaurantName": restaurantName,
+		"eq":             equals,
+		"neq":            notequals,
 	}
 	for _, templateName := range templateNames {
 		root := filepath.Join(templatePath, "root.tmpl")
 		templates[templateName] = template.Must(template.New("").Funcs(fm).ParseFiles(root, filepath.Join(templatePath, templateName+".tmpl")))
 	}
+}
+
+func equals(a, b int) bool {
+	return a == b
+}
+
+func notequals(a, b int) bool {
+	return a != b
 }
