@@ -1,6 +1,8 @@
 body {
-	background: url('fabric.png');
-background-repeat:repeat-z;
+	background: url('backgroundgrad.png');
+background-size: auto 100%;
+background-repeat:repeat-x;
+	
 	border-top: 3px solid #c36219;
 	font: 16px Helvetica;
 	padding: 0;
@@ -49,11 +51,12 @@ header {
 
 .search_box {
 	text-align: center;
-	
 	background-color: #f7f7f7;
 	border-bottom: 1px solid #e6e6e6;
-
+	
 	margin-bottom: 10px;
+	border-radius: 5px;
+	border: 1px solid #777;
 
 }
 
@@ -82,6 +85,7 @@ header {
 	border-radius: 3px;
 	margin-bottom: 50px;
 	background-color: #dec8af;
+	background-image:url('mainblockgrad.png');
 	
 }
 
@@ -167,7 +171,7 @@ header {
 }
 
 .comment_list .comment {
-	background-color: #f1dcc6;
+	background-color: #F0F0F0;
 	border: 1px solid #333;
 	border-radius: 3px;
 	margin-bottom: 10px;
