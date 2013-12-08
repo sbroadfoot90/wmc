@@ -10,6 +10,30 @@ indexes:
 # your application using appcfg.py.
 
 - kind: Comment
+  properties:
+  - name: FromID
+  - name: Time
+    direction: desc
+
+- kind: Comment
+  properties:
+  - name: FromId
+  - name: Time
+    direction: desc
+
+- kind: Comment
+  properties:
+  - name: ToID
+  - name: Time
+    direction: desc
+
+- kind: Comment
+  properties:
+  - name: ToId
+  - name: Time
+    direction: desc
+
+- kind: Comment
   ancestor: yes
   properties:
   - name: Time
