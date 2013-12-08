@@ -29,7 +29,7 @@
 				{{if .Profile.Chef}}
 				<li>{{.Profile.Title}}</li>
 				{{end}}
-				<li>{{.Profile.Tagline}}</li>
+				<li><em>"{{.Profile.Tagline}}"</em></li>
 				{{if and .Profile.Chef .Profile.CurrentRestaurantID}}
 				<li><a href="/restaurant?rid={{.Profile.CurrentRestaurantID}}">{{RestaurantName $c .Profile.CurrentRestaurantID}}</a></li>
 				{{end}}
