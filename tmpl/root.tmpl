@@ -18,6 +18,21 @@
 			$('.search_box').slideToggle();
 		});
 		
+		$('.like_button').click(function()
+		{
+				var params = {};
+				var amnt = $('.like_button').val();
+				params.id = $('.like_button').attr('id');
+				
+				$.post('/like', params, function(data) {
+				}, 'json').always(function()
+				{
+					console.log('here');
+					$('.like_button').replaceWith('<span class="like_button_disabled">'+(amnt+1)+'</span>');
+					$('.also_like').hide();
+				});
+		});
+		
 		console.log('online');
 	});
 	</script>

@@ -150,7 +150,7 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 				p.Title = title
 			}
 		}
-		
+
 		// validate restaurant id
 		rid := values.Get("Restaurant")
 		if rid != "" && retrieveRestaurant(c, rid) != nil {
@@ -167,7 +167,7 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 				}
 			}
 			p.CurrentRestaurantID = rid
-			
+
 		}
 	}
 	var oldProfilePicture appengine.BlobKey

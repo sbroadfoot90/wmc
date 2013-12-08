@@ -15,7 +15,14 @@
 	
 		$('.review_button button').click(function()
 		{
-		
+			var params = {};
+			params.id = $('.like_button').attr('id');
+			
+			console.log(params);
+			/*
+			$.post('/like', params, function(data) {
+					
+			});*/
 		});	
 		
 	});

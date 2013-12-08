@@ -41,7 +41,7 @@
 		{{if .AlreadyLiked}}
 			<span class="like_button_disabled">{{.Profile.Likes}}</span>
 		{{else}}
-			<a href="#" class="like_button">{{.Profile.Likes}}</a>
+			<a href="#" class="like_button" id="{{.ID}}">{{.Profile.Likes}}</a>
 		{{end}}
 		<div class="share_profile">
 			Share: FB, Twitter, G+
@@ -65,7 +65,7 @@
 			<textarea name="comment"></textarea>
 			{{if not .AlreadyLiked}}
 			<label for="like">Also like?</label>
-			<input type="checkbox" name="like" value="yes">
+			<input type="checkbox" name="like" value="yes" class="also_like">
 			{{end}}
 			<input type="submit" name="add_comment" value="Add Comment" />
 	
