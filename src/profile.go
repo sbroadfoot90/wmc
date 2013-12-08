@@ -1,9 +1,9 @@
 package wmc
 
 import (
-	"strings"
 	"errors"
 	"net/http"
+	"strings"
 
 	"appengine"
 	"appengine/blobstore"

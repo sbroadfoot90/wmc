@@ -4,11 +4,7 @@ Day 2
 Back-end
 ----
 
-* memcache
-
 Profile
-* Image upload (Template complete; Need to handle upload, etc)
-* Display profile pic on page
 * Drop-down for restaurant to add chef to
 * Foodies - comments made to others instead of comments made about them
 
