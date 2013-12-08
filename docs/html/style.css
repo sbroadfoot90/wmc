@@ -163,3 +163,10 @@ header {
 .comment_list .comment:last-of-type {
 	margin-bottom: 0;
 }
+
+.review_button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
+	
+}
