@@ -4,13 +4,15 @@ import (
 	"net/http"
 
 	"appengine"
+	"appengine/blobstore"
 	"appengine/datastore"
 	"appengine/memcache"
 )
 
 type Restaurant struct {
-	Name    string
-	Address string
+	Name           string
+	Address        string
+	RestaurantLogo appengine.BlobKey
 }
 
 func restaurantHandler(w http.ResponseWriter, r *http.Request) {
@@ -61,14 +63,11 @@ func newRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 
 func editRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 	loginInfo := loginDetails(r)
-
 	if r.FormValue("rid") == "" {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-
 	rest, rid := targetRestaurant(r)
-
 	if rid == "" {
 		http.Error(w, "Restaurant Not Found", http.StatusNotFound)
 		return
@@ -79,22 +78,28 @@ func editRestaurantHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	} else {
 		if r.Method == "GET" {
-			editRestaurantGetHandler(w, loginInfo, rest, rid)
+			editRestaurantGetHandler(w, r, loginInfo, rest, rid)
 		} else if r.Method == "POST" {
 			editRestaurantPostHandler(w, r, loginInfo, rest, rid)
 		}
 	}
 }
 
-func editRestaurantGetHandler(w http.ResponseWriter, loginInfo *LoginInfo, rest *Restaurant, rid string) {
+func editRestaurantGetHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInfo, rest *Restaurant, rid string) {
+	c := appengine.NewContext(r)
+	uploadURL, err := blobstore.UploadURL(c, "/editRestaurant", nil)
+	check(err)
+
 	templates["editRestaurant"].ExecuteTemplate(w, "root", struct {
 		LoginInfo  *LoginInfo
 		Restaurant *Restaurant
 		RID        string
+		UploadURL  string
 	}{
 		loginInfo,
 		rest,
 		rid,
+		uploadURL,
 	})
 }
 
