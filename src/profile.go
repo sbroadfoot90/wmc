@@ -19,7 +19,7 @@ type Profile struct {
 	Title               string
 	Likes               int
 	CurrentRestaurantID string
-	RestaurantIds       []string
+	PastRestaurantIds   []string
 }
 
 // TODO populate from file
@@ -150,10 +150,24 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 				p.Title = title
 			}
 		}
-
+		
+		// validate restaurant id
 		rid := values.Get("Restaurant")
 		if rid != "" && retrieveRestaurant(c, rid) != nil {
+			if p.CurrentRestaurantID != "" {
+				alreadyExists := false
+				for _, prid := range p.PastRestaurantIds {
+					if rid == prid {
+						alreadyExists = true
+						break
+					}
+				}
+				if !alreadyExists {
+					p.PastRestaurantIds = append(p.PastRestaurantIds, rid)
+				}
+			}
 			p.CurrentRestaurantID = rid
+			
 		}
 	}
 	var oldProfilePicture appengine.BlobKey
