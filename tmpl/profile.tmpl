@@ -17,7 +17,9 @@
 				<li>{{.Profile.Title}}</li>
 				{{end}}
 				<li>{{.Profile.Tagline}}</li>
-				<li>{RESTAURANT} {RESTAURANT ADDRESS}</li>
+				{{if and .Profile.Chef .Profile.CurrentRestaurantID}}
+				<li><a href="/restaurant?rid={{.Profile.CurrentRestaurantID}}">{{RestaurantName $c .Profile.CurrentRestaurantID}}</a></li>
+				{{end}}
 			</ul>
 		</div>
 	</div>
@@ -34,68 +36,18 @@
 	</div>
 	<div class="comment_list">
 		{{range .Comments}}
-			{{$name := Username $c .FromID}}
+			{{$name := UserName $c .FromID}}
 		<div class="comment">
 			{{.Comment}} <br />
 		- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}, {FORMATTED DATE}
 		</div>
 		{{end}}
 	</div>
-	{{end}}
-</div>
-
-
-
-
-
-
-
-
-
-
-	{{if .Profile.Chef}}
-		Current Restaurant:
-		{{if .Profile.CurrentRestaurantID}}
-		<a href="/restaurant?rid={{.Profile.CurrentRestaurantID}}">{{RestaurantName $c .Profile.CurrentRestaurantID}}</a></br>
-		{{end}}
-		
-		Past Restaurants:
-		<ul>
-			{{range .Profile.PastRestaurantIds}}
-			<li>{{.}}</li>
-			{{end}}
-		</ul>
-	
-		<br />
-
-		<strong>{{.Profile.Likes}} Likes</strong><br />
-		
-		<form action="/like" method="post">
-			<input type="hidden" name="id" value="{{.ID}}" />
-			{{if .AlreadyLiked}}
-			<input type="submit" name="submit" value="Like" disabled />
-			{{else}}
-			<input type="submit" name="submit" value="Like" />
-			{{end}}	
-		</form>
-		<br />
-		
-		<strong>Comments</strong><br />
-	
-		<ul>
-		{{range .Comments}}
-			{{$name := UserName $c .FromID}}
-			<li>
-				{{.Comment}} -- {{if $name}}<a href="/profile?id={{.FromID}}">{{$name}}</a> {{else}}Anonymous{{end}}
-			</li>
-		{{end}}
-		</ul>
-	
 		{{if .LoginInfo.User}}
 		<form action="/comment" method="post">
-		
+	
 			<input type="hidden" name="id" value="{{.ID}}" />
-		
+	
 			<label for="comment">Comment</label>
 			<textarea name="comment"></textarea>
 			{{if not .AlreadyLiked}}
@@ -103,8 +55,9 @@
 			<input type="checkbox" name="like" value="yes">
 			{{end}}
 			<input type="submit" name="add_comment" value="Add Comment" />
-		
+	
 		</form>
 		{{end}}
 	{{end}}
+</div>
 {{end}}
