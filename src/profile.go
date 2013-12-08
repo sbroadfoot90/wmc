@@ -34,7 +34,7 @@ var Titles = []string{
 
 func profileHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
-	
+
 	if r.FormValue("id") == "" {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		// TODO Maybe have a list of all profiles here?
@@ -48,7 +48,7 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Profile Not Found", http.StatusNotFound)
 		return
 	}
-	
+
 	// When viewing a chef, show comments made on chef's page
 	// When viewing a foodie, show comments made to chefs
 	var filterString string
@@ -57,7 +57,7 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		filterString = "FromID="
 	}
-	
+
 	n := 10
 	q := datastore.NewQuery("Comment").Order("-Time").Filter(filterString, id).Limit(n)
 	comments := make([]Comment, 0, n)
@@ -154,7 +154,7 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 				p.Title = title
 			}
 		}
-		
+
 		// validate restaurant id
 		rid := values.Get("Restaurant")
 		if rid != "" && retrieveRestaurant(c, rid) != nil {
@@ -171,7 +171,7 @@ func editPostHandler(w http.ResponseWriter, r *http.Request, loginInfo *LoginInf
 				}
 			}
 			p.CurrentRestaurantID = rid
-			
+
 		}
 	}
 	var oldProfilePicture appengine.BlobKey

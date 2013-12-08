@@ -3,9 +3,8 @@ Day 2
 
 Back-end
 ----
-
-Profile
-* Foodies - comments made to others instead of comments made about them
+Foodies
+* Formatted Dates
 
 Restaurant
 * Add edit link to page
