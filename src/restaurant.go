@@ -14,6 +14,7 @@ import (
 type Restaurant struct {
 	Name           string
 	Address        string
+	URL            string
 	RestaurantLogo appengine.BlobKey
 }
 
@@ -127,6 +128,7 @@ func editRestaurantPostHandler(w http.ResponseWriter, r *http.Request, loginInfo
 
 	rest.Name = values.Get("Name")
 	rest.Address = values.Get("Address")
+	rest.URL = values.Get("URL")
 
 	var oldRestaurantLogo appengine.BlobKey
 

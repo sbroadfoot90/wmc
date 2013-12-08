@@ -4,9 +4,7 @@ Day 2
 Back-end
 ----
 Restaurant
-* Restaurant logo
 * Restaurant URL
-* List current employees (& past employees?)
 * Google Maps Integration
 * Co-ords after Google Maps figures out location
 
